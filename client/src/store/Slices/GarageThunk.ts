@@ -65,7 +65,7 @@ export const getDurationCars = createAsyncThunk<ICarsState, CarType[]>(
   'garage/getDurationCars',
   async (cars) => {
     const requests = cars.map((car) =>
-      fetch(`http://127.0.0.1:3000/engine?id=${car.id}&status=started`, {
+      fetch(`${URL_SERVER}/engine?id=${car.id}&status=started`, {
         method: 'PATCH',
       })
     );
@@ -91,7 +91,7 @@ export const getSpeedOneCar = createAsyncThunk<
   { id: number },
   { rejectValue: string }
 >('garage/getSpeedOneCar', async ({ id }, Thunk) => {
-  const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=started`, {
+  const response = await fetch(`${URL_SERVER}/engine?id=${id}&status=started`, {
     method: 'PATCH',
   });
 
@@ -108,7 +108,7 @@ export const setDriveModeOneCar = createAsyncThunk<
   { id: number; signal: AbortSignal },
   { rejectValue: string }
 >('garage/setDriveModeOneCar', async ({ id, signal }, Thunk) => {
-  const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=drive`, {
+  const response = await fetch(`${URL_SERVER}/engine?id=${id}&status=drive`, {
     method: 'PATCH',
     signal,
   });
@@ -122,7 +122,7 @@ export const setStopModeOneCar = createAsyncThunk<
   { id: number },
   { rejectValue: string | number }
 >('garage/setStopModeOneCar', async ({ id }, Thunk) => {
-  const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=stopped`, {
+  const response = await fetch(`${URL_SERVER}/engine?id=${id}&status=stopped`, {
     method: 'PATCH',
   });
   if (!response.ok) return Thunk.rejectWithValue(response.statusText);

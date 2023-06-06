@@ -1,35 +1,39 @@
-import { resolve } from 'path';
+import path from 'path';
+import webpack from 'webpack';
+
+import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin, { loader } from 'mini-css-extract-plugin';
 
 const isProduction = process.env.NODE_ENV == 'production';
-
 const stylesHandler = isProduction ? loader : 'style-loader';
 
-const config = {
-  entry: resolve(__dirname, './src/index.tsx'),
+const devServer: DevServerConfiguration = {
+  open: true,
+  host: 'localhost',
+  historyApiFallback: true,
+};
+
+const config: webpack.Configuration = {
+  entry: path.resolve(__dirname, './src/index.tsx'),
   output: {
-    path: resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].js',
     publicPath: '/',
     clean: true,
   },
-  devServer: {
-    open: true,
-    host: 'localhost',
-    historyApiFallback: true,
-  },
+  devServer: devServer,
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, './src/index.html'),
+      template: path.resolve(__dirname, './src/index.html'),
     }),
   ],
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/i,
-        exclude: ['/node_modules/'],
         loader: 'ts-loader',
+        exclude: ['/node_modules/'],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -64,7 +68,7 @@ export default () => {
   if (isProduction) {
     config.mode = 'production';
 
-    config.plugins.push(new MiniCssExtractPlugin());
+    config.plugins!.push(new MiniCssExtractPlugin());
   } else {
     config.mode = 'development';
   }
