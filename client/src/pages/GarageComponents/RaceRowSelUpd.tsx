@@ -1,4 +1,4 @@
-import { setCloseUpdField, setUpdatingCar } from '../../store/Slices/GarageSlice';
+import { garageActions } from '../../store/Slices/GarageSlice';
 import { CarType, URL_SERVER, WinnerType } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { Button } from '../Header';
@@ -18,8 +18,8 @@ function RaceRowSelUpd({ id, name, color }: CarType) {
 
   // NOTE: Кнопка селект, отправляем текущие данные в стейт, которые возьмет форма для отображения
   const handlerUpdateCar = () => {
-    dispatch(setCloseUpdField(false));
-    dispatch(setUpdatingCar({ id, name, color }));
+    dispatch(garageActions.setCloseUpdField(false));
+    dispatch(garageActions.setUpdatingCar({ id, name, color }));
   };
 
   const handlerDeleteCar = async () => {

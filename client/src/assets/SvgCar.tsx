@@ -1,7 +1,5 @@
-/* eslint-disable react/destructuring-assignment */
-import React, { SVGProps } from 'react';
+import { SVGProps } from 'react';
 
-// NOTE: функция возвращает машинку SVG
 function SvgCar(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -9,7 +7,6 @@ function SvgCar(props: SVGProps<SVGSVGElement>) {
       width="1em"
       height="1em"
       viewBox="0 0 1280 640"
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     >
       <g>

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import { setWinner, updCarsEmpty } from '../../store/Slices/GarageSlice';
+import { garageActions } from '../../store/Slices/GarageSlice';
 
 import { CarType } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
@@ -48,7 +48,7 @@ function RaceRow({ id, name, color }: CarType) {
 
   // Переключаем кнопки (чтоб нельзя 2 раза нажать) и создаем контроллера для отмены fetch абортом
   const setBtnsAndAbort = async () => {
-    dispatch(updCarsEmpty(false));
+    dispatch(garageActions.updCarsEmpty(false));
     setStartClick(true);
     setStopClick(false);
     controllerRef.current = new AbortController();
@@ -83,7 +83,7 @@ function RaceRow({ id, name, color }: CarType) {
       const isFiniched = await dispatch(
         setDriveModeOneCar({ id, signal: controllerRef.current.signal })
       ).unwrap();
-      if (isFiniched === 'success') dispatch(setWinner({ id, name, color, time }));
+      if (isFiniched === 'success') dispatch(garageActions.setWinner({ id, name, color, time }));
       // eslint-disable-next-line no-empty
     } catch (error) {}
   };

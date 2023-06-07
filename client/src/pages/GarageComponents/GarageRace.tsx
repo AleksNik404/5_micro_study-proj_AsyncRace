@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../utils/hooks';
 import RaceRow from './RaceRow';
-import { decreasePage, increasePage } from '../../store/Slices/GarageSlice';
+import { garageActions } from '../../store/Slices/GarageSlice';
 import { Button } from '../Header';
 import { fetchPageCars } from '../../store/Slices/GarageThunk';
 
@@ -20,10 +20,18 @@ function GarageRace() {
       <h2>Garage ({totalCars}) </h2>
       <PageBlock>
         <h3>Page #{racePage}</h3>
-        <Button size="sm" disabled={!isCarsActiveEmpty} onClick={() => dispatch(decreasePage())}>
+        <Button
+          size="sm"
+          disabled={!isCarsActiveEmpty}
+          onClick={() => dispatch(garageActions.decreasePage())}
+        >
           Prev
         </Button>
-        <Button size="sm" disabled={!isCarsActiveEmpty} onClick={() => dispatch(increasePage())}>
+        <Button
+          size="sm"
+          disabled={!isCarsActiveEmpty}
+          onClick={() => dispatch(garageActions.increasePage())}
+        >
           Next
         </Button>
       </PageBlock>

@@ -50,6 +50,4 @@ export const winnersSlice = createSlice({
   },
 });
 
-export const { increaseWinPage, decreaseWinPage, updateTotalWinners, changeSort, changeOrder } =
-  winnersSlice.actions;
-export default winnersSlice.reducer;
+export const { reducer: winnersReducer, actions: winnersActions } = winnersSlice;

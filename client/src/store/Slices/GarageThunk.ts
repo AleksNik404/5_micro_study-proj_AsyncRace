@@ -3,7 +3,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../store';
 
-import { ICarsState, updateTotalCars } from './GarageSlice';
+import { ICarsState, garageActions } from './GarageSlice';
 import { CarType, URL_SERVER } from '../../utils/types';
 import { getRandomNameCar, randomColor } from '../../utils/utils';
 
@@ -21,7 +21,7 @@ export const fetchPageCars = createAsyncThunk<
   }
 
   const totalCars = Number(response.headers.get('X-Total-Count'));
-  Thunk.dispatch(updateTotalCars(totalCars));
+  Thunk.dispatch(garageActions.updateTotalCars(totalCars));
 
   return response.json();
 });

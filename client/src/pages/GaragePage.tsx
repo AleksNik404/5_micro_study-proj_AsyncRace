@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
-import { updCarsEmpty } from '../store/Slices/GarageSlice';
+import { useEffect } from 'react';
+import { garageActions } from '../store/Slices/GarageSlice';
 import { useAppDispatch, useAppSelector } from '../utils/hooks';
 import GarageControls from './GarageComponents/GarageControls';
 import GarageRace from './GarageComponents/GarageRace';
@@ -14,7 +14,7 @@ function GaragePage() {
   useEffect(() => {
     const isCarsActiveEmpty = Object.keys(carsRaceState).length === 0;
 
-    dispatch(updCarsEmpty(isCarsActiveEmpty));
+    dispatch(garageActions.updCarsEmpty(isCarsActiveEmpty));
   }, [carsRaceState, dispatch]);
 
   return (

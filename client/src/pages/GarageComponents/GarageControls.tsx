@@ -6,7 +6,7 @@ import UpdateCar from './UpdateCar';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { BTN_DISABLED, BTN_ENABLED } from '../../utils/types';
 import { Button } from '../Header';
-import { resetRace, setStartRace, updCarsEmpty } from '../../store/Slices/GarageSlice';
+import { garageActions } from '../../store/Slices/GarageSlice';
 import { getDurationCars, createManyCars, fetchPageCars } from '../../store/Slices/GarageThunk';
 
 function GarageControls() {
@@ -19,7 +19,7 @@ function GarageControls() {
   // NOTE: Сброс гонки, изминение state и на это отреагирует useEffect в каждой машинке.
   const handlerResetRace = useCallback(() => {
     setResetBtn(BTN_DISABLED);
-    dispatch(resetRace());
+    dispatch(garageActions.resetRace());
   }, [dispatch]);
 
   // NOTE: Блокирование кнопок.
@@ -32,12 +32,12 @@ function GarageControls() {
 
   // NOTE: Одновременный старт гонки для всех машинок, promise.all получение время анимации и useEffect старт.
   const handlerStartRace = async () => {
-    dispatch(updCarsEmpty(false));
+    dispatch(garageActions.updCarsEmpty(false));
     setStartBtn(BTN_DISABLED);
     setResetBtn(BTN_ENABLED);
 
     await dispatch(getDurationCars(cars));
-    dispatch(setStartRace(true));
+    dispatch(garageActions.setStartRace(true));
   };
 
   const handlerCreateManyCars = async (countCars: number) => {

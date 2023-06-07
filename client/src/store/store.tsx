@@ -1,7 +1,7 @@
-// import { configureStore } from '@reduxjs/toolkit';
 import { configureStore, Action, ThunkAction } from '@reduxjs/toolkit';
-import garageReducer from './Slices/GarageSlice';
-import winnersReducer from './Slices/WinnersSlice';
+
+import { garageReducer } from './Slices/GarageSlice';
+import { winnersReducer } from './Slices/WinnersSlice';
 
 export const store = configureStore({
   reducer: {

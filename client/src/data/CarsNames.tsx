@@ -1,5 +1,3 @@
-// NOTE: Данные для названия машинок.
-// eslint-disable-next-line import/prefer-default-export
 export const CARS_NAMES = [
   'BMW M',
   'BMW M2',

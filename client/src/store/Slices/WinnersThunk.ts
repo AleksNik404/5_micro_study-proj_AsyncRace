@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { URL_SERVER, WinnerType } from '../../utils/types';
 import { AppDispatch } from '../store';
-import { IWinnersPage, updateTotalWinners } from './WinnersSlice';
+import { IWinnersPage, winnersActions } from './WinnersSlice';
 
 export const fetchPageWinners = createAsyncThunk<
   WinnerType[],
@@ -19,7 +19,7 @@ export const fetchPageWinners = createAsyncThunk<
 
   const totalWinners = Number(response.headers.get('X-Total-Count'));
 
-  Thunk.dispatch(updateTotalWinners(totalWinners));
+  Thunk.dispatch(winnersActions.updateTotalWinners(totalWinners));
 
   return response.json();
 });

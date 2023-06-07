@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../utils/hooks';
-import { setCloseUpdField, setUpdatingCar } from '../../store/Slices/GarageSlice';
+import { garageActions } from '../../store/Slices/GarageSlice';
 
 import { Button } from '../Header';
 import { ControlsBox } from './CreateCar';
@@ -21,13 +21,13 @@ function UpdateCar() {
   const dispatch = useAppDispatch();
 
   const handlerUpdateCarBtn = async () => {
-    dispatch(setCloseUpdField(true));
+    dispatch(garageActions.setCloseUpdField(true));
 
     if (!updatingCar) return;
     await dispatch(updateCar({ color, name, id: updatingCar.id }));
     await dispatch(fetchPageWinners());
     await dispatch(fetchPageCars());
-    dispatch(setUpdatingCar(null));
+    dispatch(garageActions.setUpdatingCar(null));
   };
 
   return (

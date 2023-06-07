@@ -134,15 +134,4 @@ export const garageSlice = createSlice({
   },
 });
 
-export const {
-  increasePage,
-  decreasePage,
-  updateTotalCars,
-  setCloseUpdField,
-  setUpdatingCar,
-  setWinner,
-  setStartRace,
-  resetRace,
-  updCarsEmpty,
-} = garageSlice.actions;
-export default garageSlice.reducer;
+export const { reducer: garageReducer, actions: garageActions } = garageSlice;

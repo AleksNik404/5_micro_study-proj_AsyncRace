@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SvgCar from '../../assets/SvgCar';
 
 import { CarType, WinnerType } from '../../utils/types';

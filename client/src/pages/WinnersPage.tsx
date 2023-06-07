@@ -6,12 +6,7 @@ import RowWinner from './WinnersComponents/RowWinner';
 import { Button } from './Header';
 import { PageBlock } from './GarageComponents/GarageRace';
 import { createWinner, getWinnerByID, updateWinner } from '../utils/fetchAPI';
-import {
-  changeOrder,
-  changeSort,
-  decreaseWinPage,
-  increaseWinPage,
-} from '../store/Slices/WinnersSlice';
+import { winnersActions } from '../store/Slices/WinnersSlice';
 import { fetchPageWinners } from '../store/Slices/WinnersThunk';
 
 function WinnersPage() {
@@ -45,13 +40,13 @@ function WinnersPage() {
   }, [updateWinnerData, winnerRace]);
 
   const handlerSortWins = () => {
-    dispatch(changeSort('wins'));
-    dispatch(changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
+    dispatch(winnersActions.changeSort('wins'));
+    dispatch(winnersActions.changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
   };
 
   const handlerSortTime = () => {
-    dispatch(changeSort('time'));
-    dispatch(changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
+    dispatch(winnersActions.changeSort('time'));
+    dispatch(winnersActions.changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
   };
 
   return (
@@ -59,8 +54,8 @@ function WinnersPage() {
       <h2>Winners ({totalWinners})</h2>
       <PageBlock>
         <h3>Page #{winnersPage}</h3>
-        <Button onClick={() => dispatch(decreaseWinPage())}>Prev</Button>
-        <Button onClick={() => dispatch(increaseWinPage())}>Next</Button>
+        <Button onClick={() => dispatch(winnersActions.decreaseWinPage())}>Prev</Button>
+        <Button onClick={() => dispatch(winnersActions.increaseWinPage())}>Next</Button>
       </PageBlock>
 
       <Winners>
