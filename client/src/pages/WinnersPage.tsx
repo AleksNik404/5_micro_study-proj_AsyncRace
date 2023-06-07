@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { useCallback, useEffect } from 'react';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 
 import { PageBlock } from '@/pages/GarageComponents/GarageRace';
@@ -7,9 +7,8 @@ import { Button } from '@/pages/Header';
 import RowWinner from '@/pages/WinnersComponents/RowWinner';
 import { winnersActions } from '@/store/Slices/Winners/WinnersSlice';
 import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
-
-import { getWinnerByID, updateWinner, createWinner } from '@/utils/fetchAPI';
-import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { createWinner, getWinnerByID, updateWinner } from '@/helpers/fetchAPI';
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 
 function WinnersPage() {
   const dispatch = useAppDispatch();

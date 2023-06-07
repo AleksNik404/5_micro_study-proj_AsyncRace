@@ -1,5 +1,6 @@
-import { useAppSelector } from '@/utils/hooks';
 import styled from '@emotion/styled';
+
+import { useAppSelector } from '@/helpers/hooks';
 
 function WinnerRaceModal() {
   const { winnerRace } = useAppSelector((store) => store.garage);

@@ -1,3 +1,5 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import {
   fetchPageCars,
   getDurationCars,
@@ -5,8 +7,7 @@ import {
   setDriveModeOneCar,
   setStopModeOneCar,
 } from '@/store/Slices/Garage/GarageThunk';
-import { CarType } from '@/utils/types';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CarType } from '@/helpers/types';
 
 export interface ICarsState {
   [key: number]: { isDrive: boolean; isBroken: boolean; time: number };

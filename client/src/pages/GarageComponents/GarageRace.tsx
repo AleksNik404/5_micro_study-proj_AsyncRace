@@ -1,10 +1,11 @@
+import styled from '@emotion/styled';
+import { useEffect } from 'react';
+
 import RaceRow from '@/pages/GarageComponents/RaceRow';
 import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Garage/GarageSlice';
 import { fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
-import { useAppDispatch, useAppSelector } from '@/utils/hooks';
-import styled from '@emotion/styled';
-import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 
 function GarageRace() {
   const { racePage, cars, totalCars, isCarsActiveEmpty } = useAppSelector((state) => state.garage);

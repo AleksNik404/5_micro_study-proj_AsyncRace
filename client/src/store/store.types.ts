@@ -1,5 +1,6 @@
+import { Action, ThunkAction } from '@reduxjs/toolkit';
+
 import { store } from '@/store/store';
-import { ThunkAction, Action } from '@reduxjs/toolkit';
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

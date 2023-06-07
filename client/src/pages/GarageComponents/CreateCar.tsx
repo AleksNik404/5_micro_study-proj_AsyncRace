@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 import { Button } from '@/pages/Header';
 import { createCar, fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
-
-import { useAppSelector, useAppDispatch } from '@/utils/hooks';
-import { getRandomNameCar } from '@/utils/utils';
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
+import { getRandomNameCar } from '@/helpers/utils';
 
 function CreateCar() {
   const { isCarsActiveEmpty } = useAppSelector((state) => state.garage);

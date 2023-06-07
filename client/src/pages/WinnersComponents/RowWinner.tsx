@@ -1,9 +1,10 @@
-import SvgCar from '@/assets/SvgCar';
-import { getCar } from '@/utils/fetchAPI';
-import { useAppSelector } from '@/utils/hooks';
-import { WinnerType, CarType } from '@/utils/types';
 import styled from '@emotion/styled';
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+import SvgCar from '@/assets/SvgCar';
+import { getCar } from '@/helpers/fetchAPI';
+import { useAppSelector } from '@/helpers/hooks';
+import { CarType, WinnerType } from '@/helpers/types';
 
 interface IRowWinner {
   winner: WinnerType;

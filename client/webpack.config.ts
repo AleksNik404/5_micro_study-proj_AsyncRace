@@ -4,7 +4,6 @@ import webpack from 'webpack';
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin, { loader } from 'mini-css-extract-plugin';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV == 'production';
 const stylesHandler = isProduction ? loader : 'style-loader';

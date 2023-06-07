@@ -1,8 +1,9 @@
+import styled from '@emotion/styled';
+import { useState } from 'react';
+
 import GaragePage from '@/pages/GaragePage';
 import Header from '@/pages/Header';
 import WinnersPage from '@/pages/WinnersPage';
-import styled from '@emotion/styled';
-import { useState } from 'react';
 
 function App() {
   const [isGaragePage, setIsGarage] = useState(true);
