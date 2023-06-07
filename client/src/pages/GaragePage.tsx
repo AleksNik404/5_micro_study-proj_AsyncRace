@@ -1,10 +1,10 @@
+import GarageControls from '@/pages/GarageComponents/GarageControls';
+import GarageRace from '@/pages/GarageComponents/GarageRace';
+import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
+import { garageActions } from '@/store/Slices/Garage/GarageSlice';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
-import { garageActions } from '../store/Slices/GarageSlice';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import GarageControls from './GarageComponents/GarageControls';
-import GarageRace from './GarageComponents/GarageRace';
-import WinnerRaceModal from './GarageComponents/WinnerRaceModal';
 
 function GaragePage() {
   const { winnerRace, carsRaceState } = useAppSelector((state) => state.garage);

@@ -21,7 +21,7 @@
     "plugin:prettier/recommended"
   ],
   "overrides": [],
-  "plugins": ["react", "prettier", "react-hooks"],
+  "plugins": ["react", "prettier", "react-hooks", "simple-import-sort"],
   "rules": {
     "react/react-in-jsx-scope": 0,
     "react-hooks/rules-of-hooks": "error",
@@ -41,7 +41,10 @@
     "react/jsx-uses-react": "off",
 
     // "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   },
   "settings": {
     "import/resolver": {

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../utils/hooks';
-import { garageActions } from '../../store/Slices/GarageSlice';
-
-import { Button } from '../Header';
-import { ControlsBox } from './CreateCar';
-import { fetchPageCars, updateCar } from '../../store/Slices/GarageThunk';
-import { fetchPageWinners } from '../../store/Slices/WinnersThunk';
+import { ControlsBox } from '@/pages/GarageComponents/CreateCar';
+import { Button } from '@/pages/Header';
+import { garageActions } from '@/store/Slices/Garage/GarageSlice';
+import { updateCar, fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
+import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
+import { useAppSelector, useAppDispatch } from '@/utils/hooks';
+import { useState, useEffect } from 'react';
 
 function UpdateCar() {
   const { isDisabledUpdField, updatingCar } = useAppSelector((state) => state.garage);

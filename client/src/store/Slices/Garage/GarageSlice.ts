@@ -1,13 +1,12 @@
-/* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CarType } from '../../utils/types';
 import {
   fetchPageCars,
   getDurationCars,
   getSpeedOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from './GarageThunk';
+} from '@/store/Slices/Garage/GarageThunk';
+import { CarType } from '@/utils/types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ICarsState {
   [key: number]: { isDrive: boolean; isBroken: boolean; time: number };

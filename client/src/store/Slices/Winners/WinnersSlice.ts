@@ -1,6 +1,6 @@
+import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
+import { WinnerType } from '@/utils/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { WinnerType } from '../../utils/types';
-import { fetchPageWinners } from './WinnersThunk';
 
 export interface IWinnersPage {
   winners: WinnerType[];

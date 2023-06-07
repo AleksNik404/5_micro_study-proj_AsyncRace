@@ -1,18 +1,16 @@
-import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
-import { garageActions } from '../../store/Slices/GarageSlice';
-
-import { CarType } from '../../utils/types';
-import { useAppDispatch, useAppSelector } from '../../utils/hooks';
-import { Button } from '../Header';
-import RaceRowSelUpd from './RaceRowSelUpd';
-
-import SvgCar from '../../assets/SvgCar';
+import SvgCar from '@/assets/SvgCar';
+import RaceRowSelUpd from '@/pages/GarageComponents/RaceRowSelUpd';
+import { Button } from '@/pages/Header';
+import { garageActions } from '@/store/Slices/Garage/GarageSlice';
 import {
   setDriveModeOneCar,
   getSpeedOneCar,
   setStopModeOneCar,
-} from '../../store/Slices/GarageThunk';
+} from '@/store/Slices/Garage/GarageThunk';
+import { useAppSelector, useAppDispatch } from '@/utils/hooks';
+import { CarType } from '@/utils/types';
+import styled from '@emotion/styled';
+import React, { useState, useEffect } from 'react';
 
 function RaceRow({ id, name, color }: CarType) {
   const { startRace, winnerRace, resetPosition } = useAppSelector((state) => state.garage);

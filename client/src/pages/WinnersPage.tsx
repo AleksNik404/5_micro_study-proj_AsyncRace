@@ -1,13 +1,15 @@
+import { useCallback, useEffect } from 'react';
 import styled from '@emotion/styled';
-import React, { useCallback, useEffect } from 'react';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import RowWinner from './WinnersComponents/RowWinner';
-import { Button } from './Header';
-import { PageBlock } from './GarageComponents/GarageRace';
-import { createWinner, getWinnerByID, updateWinner } from '../utils/fetchAPI';
-import { winnersActions } from '../store/Slices/WinnersSlice';
-import { fetchPageWinners } from '../store/Slices/WinnersThunk';
+
+import { PageBlock } from '@/pages/GarageComponents/GarageRace';
+import { Button } from '@/pages/Header';
+import RowWinner from '@/pages/WinnersComponents/RowWinner';
+import { winnersActions } from '@/store/Slices/Winners/WinnersSlice';
+import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
+
+import { getWinnerByID, updateWinner, createWinner } from '@/utils/fetchAPI';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 
 function WinnersPage() {
   const dispatch = useAppDispatch();

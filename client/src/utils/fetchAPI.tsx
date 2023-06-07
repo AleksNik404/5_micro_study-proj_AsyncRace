@@ -1,4 +1,4 @@
-import { URL_SERVER, WinnerType } from './types';
+import { URL_SERVER, WinnerType } from '@/utils/types';
 
 // eslint-disable-next-line consistent-return
 export const getWinnerByID = async (id: number) => {

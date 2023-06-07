@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import CreateCar from '@/pages/GarageComponents/CreateCar';
+import UpdateCar from '@/pages/GarageComponents/UpdateCar';
+import { Button } from '@/pages/Header';
+import { garageActions } from '@/store/Slices/Garage/GarageSlice';
+import { getDurationCars, createManyCars, fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { BTN_ENABLED, BTN_DISABLED } from '@/utils/types';
 import styled from '@emotion/styled';
-
-import CreateCar from './CreateCar';
-import UpdateCar from './UpdateCar';
-import { useAppDispatch, useAppSelector } from '../../utils/hooks';
-import { BTN_DISABLED, BTN_ENABLED } from '../../utils/types';
-import { Button } from '../Header';
-import { garageActions } from '../../store/Slices/GarageSlice';
-import { getDurationCars, createManyCars, fetchPageCars } from '../../store/Slices/GarageThunk';
+import { useState, useCallback, useEffect } from 'react';
 
 function GarageControls() {
   const dispatch = useAppDispatch();

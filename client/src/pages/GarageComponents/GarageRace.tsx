@@ -1,10 +1,10 @@
+import RaceRow from '@/pages/GarageComponents/RaceRow';
+import { Button } from '@/pages/Header';
+import { garageActions } from '@/store/Slices/Garage/GarageSlice';
+import { fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../utils/hooks';
-import RaceRow from './RaceRow';
-import { garageActions } from '../../store/Slices/GarageSlice';
-import { Button } from '../Header';
-import { fetchPageCars } from '../../store/Slices/GarageThunk';
+import { useEffect } from 'react';
 
 function GarageRace() {
   const { racePage, cars, totalCars, isCarsActiveEmpty } = useAppSelector((state) => state.garage);
