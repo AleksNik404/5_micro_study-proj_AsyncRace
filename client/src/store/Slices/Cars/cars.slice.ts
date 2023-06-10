@@ -7,8 +7,8 @@ import {
   getSpeedOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from '@/store/Slices/Garage/garage.thunk';
-import { IGarage } from '@/store/Slices/Garage/garage.types';
+} from '@/store/Slices/Cars/cars.thunk';
+import { IGarage } from '@/store/Slices/Cars/cars.types';
 
 const initialState: IGarage = {
   cars: [],
@@ -71,6 +71,10 @@ export const garageSlice = createSlice({
     updCarsEmpty(state, action: PayloadAction<boolean>) {
       state.isCarsActiveEmpty = action.payload;
     },
+
+    setStatus(state, { payload }: PayloadAction<{ id: number }>) {
+      state.carsRaceState[payload.id] = { time: 0, status: 'starting' };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPageCars.fulfilled, (state, action) => {
@@ -82,32 +86,27 @@ export const garageSlice = createSlice({
 
     builder.addCase(getSpeedOneCar.fulfilled, (state, action) => {
       const { id, time } = action.payload;
-      state.carsRaceState[id] = {
-        isBroken: false,
-        isDrive: false,
-        time,
-      };
+      state.carsRaceState[id].time = time;
     });
 
     builder.addCase(setDriveModeOneCar.pending, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].isDrive = true;
+      state.carsRaceState[action.meta.arg.id].status = 'run';
     });
     builder.addCase(setDriveModeOneCar.fulfilled, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].isDrive = false;
+      state.carsRaceState[action.meta.arg.id].status = 'stopped';
     });
     builder.addCase(setDriveModeOneCar.rejected, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].isDrive = false;
+      state.carsRaceState[action.meta.arg.id].status = 'stopped';
 
       if (action.payload?.includes('broken')) {
-        state.carsRaceState[action.meta.arg.id].isBroken = true;
+        state.carsRaceState[action.meta.arg.id].status = 'broken';
       }
     });
 
     builder.addCase(setStopModeOneCar.pending, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].isDrive = false;
+      state.carsRaceState[action.meta.arg.id].status = 'stopped';
     });
     builder.addCase(setStopModeOneCar.fulfilled, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].isBroken = false;
       delete state.carsRaceState[action.meta.arg.id];
     });
   },

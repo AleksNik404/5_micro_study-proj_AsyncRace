@@ -3,8 +3,8 @@ import axios from 'axios';
 
 import { CarType, URL_SERVER } from '@/helpers/types';
 import { getRandomNameCar, randomColor } from '@/helpers/utils';
-import { garageActions } from '@/store/Slices/Garage/garage.slice';
-import { ICarsState } from '@/store/Slices/Garage/garage.types';
+import { garageActions } from '@/store/Slices/Cars/cars.slice';
+import { ICarsState } from '@/store/Slices/Cars/cars.types';
 import { AppDispatch, RootState } from '@/store/store.types';
 
 // Получаем машинОК / обновляем total / возвращаю машинки в стейт
@@ -63,7 +63,7 @@ export const getDurationCars = createAsyncThunk<ICarsState, CarType[]>(
       const time = Number((car.distance / car.velocity / 1000).toFixed(2));
       const { id } = cars[index];
 
-      const carState = { time, isDrive: false, isBroken: false };
+      const carState = { time, status: 'starting' };
 
       return { ...acc, [id]: carState };
     }, {});
@@ -77,6 +77,7 @@ export const getSpeedOneCar = createAsyncThunk<
   { id: number },
   { rejectValue: string }
 >('garage/getSpeedOneCar', async ({ id }, Thunk) => {
+  Thunk.dispatch(garageActions.setStatus({ id }));
   const response = await axios.patch(`${URL_SERVER}/engine?id=${id}&status=started`);
 
   if (response.status !== 200) {

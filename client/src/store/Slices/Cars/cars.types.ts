@@ -1,7 +1,7 @@
 import { CarType } from '@/helpers/types';
 
 export interface ICarsState {
-  [key: number]: { isDrive: boolean; isBroken: boolean; time: number };
+  [key: number]: { status: string; time: number };
 }
 
 export interface IGarage {

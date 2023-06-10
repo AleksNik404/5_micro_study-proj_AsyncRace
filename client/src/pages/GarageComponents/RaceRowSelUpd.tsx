@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType, URL_SERVER } from '@/helpers/types';
 import { Button } from '@/pages/Header';
-import { garageActions } from '@/store/Slices/Garage/garage.slice';
-import { deleteCar, fetchPageCars } from '@/store/Slices/Garage/garage.thunk';
+import { garageActions } from '@/store/Slices/Cars/cars.slice';
+import { deleteCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 import { WinnerType } from '@/store/Slices/Winners/winners.types';
 

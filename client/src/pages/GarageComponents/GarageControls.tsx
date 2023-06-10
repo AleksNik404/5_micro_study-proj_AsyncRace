@@ -6,8 +6,8 @@ import { BTN_DISABLED, BTN_ENABLED } from '@/helpers/types';
 import CreateCar from '@/pages/GarageComponents/CreateCar';
 import UpdateCar from '@/pages/GarageComponents/UpdateCar';
 import { Button } from '@/pages/Header';
-import { garageActions } from '@/store/Slices/Garage/garage.slice';
-import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/Garage/garage.thunk';
+import { garageActions } from '@/store/Slices/Cars/cars.slice';
+import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/Cars/cars.thunk';
 
 function GarageControls() {
   const dispatch = useAppDispatch();

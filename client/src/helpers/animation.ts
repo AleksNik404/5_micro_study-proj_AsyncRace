@@ -1,12 +1,10 @@
-import { RefObject } from 'react';
-
 export class Animate {
-  element: RefObject<HTMLDivElement>;
+  element: HTMLDivElement;
   duration = 0;
   startTime = 0;
   frameId: null | number = null;
 
-  constructor(element: RefObject<HTMLDivElement>) {
+  constructor(element: HTMLDivElement) {
     this.element = element;
   }
 
@@ -32,10 +30,10 @@ export class Animate {
   }
 
   onProgress(progress: number) {
-    if (!this.element.current) return;
+    if (!this.element) return;
 
-    const width = this.element.current.clientWidth * progress;
-    this.element.current.style.left = `Calc(${progress * 100}% - ${width}px)`;
+    const width = this.element.clientWidth * progress;
+    this.element.style.left = `Calc(${progress * 100}% - ${width}px)`;
   }
 
   stop() {
@@ -43,11 +41,13 @@ export class Animate {
   }
 
   reset() {
+    this.stop();
+
     this.frameId = null;
     this.startTime = 0;
     this.duration = 0;
-    if (this.element.current) {
-      this.element.current.style.left = '0';
+    if (this.element) {
+      this.element.style.left = '0';
     }
   }
 }

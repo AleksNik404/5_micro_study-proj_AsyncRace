@@ -1,47 +1,29 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import SvgCar from '@/assets/SvgCar';
-import { Animate } from '@/helpers/animation';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
+import Car from '@/pages/GarageComponents/Car';
 import RaceRowSelUpd from '@/pages/GarageComponents/RaceRowSelUpd';
 import { Button } from '@/pages/Header';
-import { garageActions } from '@/store/Slices/Garage/garage.slice';
+import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import {
   getSpeedOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from '@/store/Slices/Garage/garage.thunk';
+} from '@/store/Slices/Cars/cars.thunk';
 
 function RaceRow({ id, name, color }: CarType) {
   const startRace = useAppSelector((state) => state.garage.startRace);
   const winnerRace = useAppSelector((state) => state.garage.winnerRace);
   const resetPosition = useAppSelector((state) => state.garage.resetPosition);
   const carsRaceState = useAppSelector((state) => state.garage.carsRaceState[id]);
-
-  const carAnimation = React.useRef<Animate>();
-
-  useEffect(() => {
-    carAnimation.current = new Animate(carRef);
-
-    return () => {
-      carAnimation.current?.stop();
-      carAnimation.current = undefined;
-    };
-  }, []);
-
-  ///////
+  const time = useAppSelector((state) => state.garage.carsRaceState[id]?.time);
+  const status = useAppSelector((state) => state.garage.carsRaceState[id]?.status);
 
   const dispatch = useAppDispatch();
 
-  // const [startClick, setStartClick] = useState(false);
-  // const [stopClick, setStopClick] = useState(true);
-
-  const carRef = React.useRef<HTMLDivElement>(null);
-
   const abortRef = React.useRef<AbortController>(new AbortController());
-  const timers = React.useRef<number>(0);
 
   // Старт гонки для всех. startRace меняется при получение promise.all времени анимации
   useEffect(() => {
@@ -51,31 +33,27 @@ function RaceRow({ id, name, color }: CarType) {
   }, [startRace, resetPosition]);
 
   // ОТМЕНА АНИМАЦИИ ПРИ ПОЛОМКЕ. Отменяем если эта машинка активна и не едет. Статусы в редаксе проставляются.
-  useEffect(() => {
-    if (carsRaceState && carsRaceState.time) timers.current = carsRaceState.time;
-    if (carsRaceState && (carsRaceState.isBroken || !carsRaceState.isDrive)) {
-      carAnimation.current?.stop();
-    }
-    // if (!carsRaceState) setStartClick(false);
-  }, [carsRaceState]);
+  // useEffect(() => {
+  //   if (carsRaceState && carsRaceState.time) timers.current = carsRaceState.time;
+  //   if (carsRaceState && (carsRaceState.isBroken || !carsRaceState.isDrive)) {
+  //     carAnimation.current?.stop();
+  //   }
+  //   // if (!carsRaceState) setStartClick(false);
+  // }, [carsRaceState]);
 
-  // Переключаем кнопки (чтоб нельзя 2 раза нажать) и создаем контроллера для отмены fetch абортом
+  // создаем контроллера для отмены fetch абортом
   const setBtnsAndAbort = async () => {
-    dispatch(garageActions.updCarsEmpty(false));
-    // setStartClick(true);
-    // setStopClick(false);
+    // dispatch(garageActions.updCarsEmpty(false));
     abortRef.current = new AbortController();
   };
 
   const animationAndSetWin = async (time: number) => {
-    carAnimation.current?.start(time * 1000);
-
     dispatch(setDriveModeOneCar({ id, signal: abortRef.current.signal }))
       .unwrap()
       .then((isFiniched) => {
         if (isFiniched === 'success') dispatch(garageActions.setWinner({ id, name, color, time }));
       })
-      .catch((error) => {});
+      .catch(() => {});
   };
 
   const handlerStart = async () => {
@@ -88,77 +66,33 @@ function RaceRow({ id, name, color }: CarType) {
   };
 
   const stopCar = async () => {
-    // setStopClick(true);
     abortRef.current.abort();
-    carAnimation.current?.stop();
-    await dispatch(setStopModeOneCar({ id }));
-    carAnimation.current?.reset();
+    dispatch(setStopModeOneCar({ id }));
   };
 
   // Когда гонка для всех (отличается от одиночного старта способом получения time).
   const raceAllStart = async () => {
     setBtnsAndAbort();
-    animationAndSetWin(timers.current);
+    // animationAndSetWin(timers.current);
   };
 
   return (
     <RowContainer>
       <ButtonsBox>
         <RaceRowSelUpd id={id} color={color} name={name} />
-        <Button
-          bg="#fed7aa"
-          size="sm"
-          onClick={handlerStart}
-          // disabled={startClick}
-        >
+        <Button bg="#fed7aa" size="sm" onClick={handlerStart} disabled={!!status}>
           start
         </Button>
-        <Button
-          bg="#fed7aa"
-          size="sm"
-          onClick={stopCar}
-          // disabled={stopClick}
-        >
+        <Button bg="#fed7aa" size="sm" onClick={stopCar} disabled={!status}>
           stop
         </Button>
       </ButtonsBox>
       <Row colorFlag={winnerRace?.id === id ? '#bef264' : '#ef4444'}>
-        <SvgBox className={`${carsRaceState?.isBroken && 'broken'}`} ref={carRef}>
-          <SvgCar fill={color} width="70px" height="50px" />
-        </SvgBox>
+        <Car status={status} color={color} animationTime={time * 1000} />
       </Row>
     </RowContainer>
   );
 }
-
-const SvgBox = styled.div`
-  width: min-content;
-  position: relative;
-  overflow: hidden;
-  bottom: -18px;
-
-  position: relative;
-
-  &.broken::after,
-  &.broken::before {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 2px;
-    background-color: red;
-
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-origin: center;
-  }
-  &.broken::after {
-    transform: translate(-50%, -50%) rotate(35deg);
-  }
-  &.broken::before {
-    transform: translate(-50%, -50%) rotate(-35deg);
-  }
-`;
 
 const ButtonsBox = styled.div`
   display: grid;

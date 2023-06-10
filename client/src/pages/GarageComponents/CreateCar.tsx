@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { getRandomNameCar } from '@/helpers/utils';
 import { Button } from '@/pages/Header';
-import { createCar, fetchPageCars } from '@/store/Slices/Garage/garage.thunk';
+import { createCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
 function CreateCar() {
   const { isCarsActiveEmpty } = useAppSelector((state) => state.garage);
