@@ -13,18 +13,21 @@ export class Animate {
   start(duration: number) {
     this.duration = duration;
     this.onProgress(0);
-    this.startTime = performance.now();
-    this.frameId = requestAnimationFrame(() => this.onFrame());
+    this.frameId = requestAnimationFrame((time) => this.onFrame(time));
   }
 
-  onFrame() {
-    const timePassed = performance.now() - this.startTime;
+  onFrame(time: number) {
+    if (!this.startTime) this.startTime = time;
+
+    const timePassed = time - this.startTime;
     const progress = Math.min(timePassed / this.duration, 1);
+    // console.log(timePassed);
+    // console.log(progress);
     this.onProgress(progress);
 
     if (progress === 1) this.stop();
     else {
-      this.frameId = requestAnimationFrame(() => this.onFrame());
+      this.frameId = requestAnimationFrame((time) => this.onFrame(time));
     }
   }
 
@@ -37,8 +40,14 @@ export class Animate {
 
   stop() {
     if (this.frameId) cancelAnimationFrame(this.frameId);
+  }
+
+  reset() {
     this.frameId = null;
     this.startTime = 0;
     this.duration = 0;
+    if (this.element.current) {
+      this.element.current.style.left = '0';
+    }
   }
 }

@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import SvgCar from '@/assets/SvgCar';
+import { Animate } from '@/helpers/animation';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
 import RaceRowSelUpd from '@/pages/GarageComponents/RaceRowSelUpd';
@@ -14,19 +15,32 @@ import {
 } from '@/store/Slices/Garage/garage.thunk';
 
 function RaceRow({ id, name, color }: CarType) {
-  const { startRace, winnerRace, resetPosition } = useAppSelector((state) => state.garage);
-  const dispatch = useAppDispatch();
-  // Получение состояния конкретной машинки, или undefined
+  const startRace = useAppSelector((state) => state.garage.startRace);
+  const winnerRace = useAppSelector((state) => state.garage.winnerRace);
+  const resetPosition = useAppSelector((state) => state.garage.resetPosition);
   const carsRaceState = useAppSelector((state) => state.garage.carsRaceState[id]);
 
-  const [startClick, setStartClick] = useState(false);
-  const [stopClick, setStopClick] = useState(true);
+  const carAnimation = React.useRef<Animate>();
 
-  // рефы для позиции / id анимации / отмены fetch
+  useEffect(() => {
+    carAnimation.current = new Animate(carRef);
+
+    return () => {
+      carAnimation.current?.stop();
+      carAnimation.current = undefined;
+    };
+  }, []);
+
+  ///////
+
+  const dispatch = useAppDispatch();
+
+  // const [startClick, setStartClick] = useState(false);
+  // const [stopClick, setStopClick] = useState(true);
+
   const carRef = React.useRef<HTMLDivElement>(null);
-  const requestIDRef = React.useRef<number>(null!);
 
-  const controllerRef = React.useRef<AbortController>(new AbortController());
+  const abortRef = React.useRef<AbortController>(new AbortController());
   const timers = React.useRef<number>(0);
 
   // Старт гонки для всех. startRace меняется при получение promise.all времени анимации
@@ -40,85 +54,71 @@ function RaceRow({ id, name, color }: CarType) {
   useEffect(() => {
     if (carsRaceState && carsRaceState.time) timers.current = carsRaceState.time;
     if (carsRaceState && (carsRaceState.isBroken || !carsRaceState.isDrive)) {
-      cancelAnimationFrame(requestIDRef.current);
+      carAnimation.current?.stop();
     }
-    if (!carsRaceState) setStartClick(false);
+    // if (!carsRaceState) setStartClick(false);
   }, [carsRaceState]);
 
   // Переключаем кнопки (чтоб нельзя 2 раза нажать) и создаем контроллера для отмены fetch абортом
   const setBtnsAndAbort = async () => {
     dispatch(garageActions.updCarsEmpty(false));
-    setStartClick(true);
-    setStopClick(false);
-    controllerRef.current = new AbortController();
+    // setStartClick(true);
+    // setStopClick(false);
+    abortRef.current = new AbortController();
   };
 
-  /// 2 функции АНИМАЦИИ ДВИЖЕНИЯ через requestAnimationFrame. Сложно читаются.
-  // eslint-disable-next-line no-unused-vars
-  function startAnimation(duration: number, changePosition: (progress: number) => void) {
-    let startAnim: number | null = null;
-
-    requestIDRef.current = requestAnimationFrame(function measure(time) {
-      if (!startAnim) startAnim = time;
-
-      const progress = (time - startAnim) / duration;
-      changePosition(progress);
-      if (progress < 1) requestIDRef.current = requestAnimationFrame(measure);
-    });
-  }
-  // callback в startAnimation на смену позиции
-  const changePositionCar = (carHTML: React.RefObject<HTMLDivElement>, progress: number) => {
-    if (!carHTML || !carHTML.current) return;
-    carHTML.current.style.left = `Calc(${progress * 100}% - ${
-      carHTML.current.clientWidth * progress
-    }px)`;
-  };
-
-  // Стартуем анимацию и сопровождаем fetch на поломку / финиш
   const animationAndSetWin = async (time: number) => {
-    try {
-      startAnimation(Number(time * 1000), changePositionCar.bind(null, carRef));
-      const isFiniched = await dispatch(
-        setDriveModeOneCar({ id, signal: controllerRef.current.signal })
-      ).unwrap();
-      if (isFiniched === 'success') dispatch(garageActions.setWinner({ id, name, color, time }));
-      // eslint-disable-next-line no-empty
-    } catch (error) {}
+    carAnimation.current?.start(time * 1000);
+
+    dispatch(setDriveModeOneCar({ id, signal: abortRef.current.signal }))
+      .unwrap()
+      .then((isFiniched) => {
+        if (isFiniched === 'success') dispatch(garageActions.setWinner({ id, name, color, time }));
+      })
+      .catch((error) => {});
   };
 
-  // Одиночный старт машинки
   const handlerStart = async () => {
-    try {
-      setBtnsAndAbort();
-      await dispatch(getSpeedOneCar({ id })).unwrap();
-      animationAndSetWin(timers.current);
-      // eslint-disable-next-line no-empty
-    } catch (error) {}
+    setBtnsAndAbort();
+    dispatch(getSpeedOneCar({ id }))
+      .unwrap()
+      .then(({ time }) => {
+        animationAndSetWin(time);
+      });
   };
 
-  // Когда гонка для всех, вызывет useEffcet (отличается от одиночного старта способом получения time) Мб переделать потом, но как.
+  const stopCar = async () => {
+    // setStopClick(true);
+    abortRef.current.abort();
+    carAnimation.current?.stop();
+    await dispatch(setStopModeOneCar({ id }));
+    carAnimation.current?.reset();
+  };
+
+  // Когда гонка для всех (отличается от одиночного старта способом получения time).
   const raceAllStart = async () => {
     setBtnsAndAbort();
     animationAndSetWin(timers.current);
-  };
-
-  // абортим fetch, и машинку в stopped режим. Сброс позиции
-  const stopCar = async () => {
-    setStopClick(true);
-    controllerRef.current.abort();
-    await dispatch(setStopModeOneCar({ id }));
-    if (carRef.current) carRef.current.style.left = `0`;
   };
 
   return (
     <RowContainer>
       <ButtonsBox>
         <RaceRowSelUpd id={id} color={color} name={name} />
-        {/* TODO: можно убрать в отдельный компонент, как кнопки выше */}
-        <Button bg="#fed7aa" size="sm" onClick={handlerStart} disabled={startClick}>
+        <Button
+          bg="#fed7aa"
+          size="sm"
+          onClick={handlerStart}
+          // disabled={startClick}
+        >
           start
         </Button>
-        <Button bg="#fed7aa" size="sm" onClick={stopCar} disabled={stopClick}>
+        <Button
+          bg="#fed7aa"
+          size="sm"
+          onClick={stopCar}
+          // disabled={stopClick}
+        >
           stop
         </Button>
       </ButtonsBox>
