@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 interface HeaderProps {
-  // eslint-disable-next-line no-unused-vars
   handleChangePage: (isOpen: boolean) => void;
 }
 
@@ -17,6 +16,8 @@ function Header({ handleChangePage }: HeaderProps) {
     </Links>
   );
 }
+
+export default Header;
 
 const Links = styled.nav`
   margin-bottom: 15px;
@@ -46,5 +47,3 @@ export const Button = styled.button<{ bg?: string; size?: string }>`
     filter: brightness(90%);
   }
 `;
-
-export default Header;

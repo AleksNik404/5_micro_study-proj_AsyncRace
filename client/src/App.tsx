@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import clsx from 'clsx';
 import { useState } from 'react';
 
 import GaragePage from '@/pages/GaragePage';
@@ -16,10 +17,10 @@ function App() {
     <Wrapper>
       <Header handleChangePage={handleChangePage} />
       <Main>
-        <div className={`${isGaragePage ? '' : 'hide'}`}>
+        <div className={clsx({ hide: !isGaragePage })}>
           <GaragePage />
         </div>
-        <div className={`${isGaragePage ? 'hide' : ''}`}>
+        <div className={clsx({ hide: isGaragePage })}>
           <WinnersPage />
         </div>
       </Main>
@@ -27,9 +28,8 @@ function App() {
   );
 }
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   padding: 20px 30px;
-
   transition: all 0.2s;
 
   @media (max-width: 550px) {

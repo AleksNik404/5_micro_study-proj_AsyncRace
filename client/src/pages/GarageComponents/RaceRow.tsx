@@ -69,7 +69,6 @@ function RaceRow({ id, name, color }: CarType) {
   // callback в startAnimation на смену позиции
   const changePositionCar = (carHTML: React.RefObject<HTMLDivElement>, progress: number) => {
     if (!carHTML || !carHTML.current) return;
-    // eslint-disable-next-line no-param-reassign
     carHTML.current.style.left = `Calc(${progress * 100}% - ${
       carHTML.current.clientWidth * progress
     }px)`;

@@ -82,6 +82,8 @@ function WinnersPage() {
   );
 }
 
+export default WinnersPage;
+
 const Container = styled.div`
   position: absolute;
 
@@ -118,5 +120,3 @@ const Winners = styled.aside`
 `;
 
 const HeaderTable = styled.header``;
-
-export default WinnersPage;
