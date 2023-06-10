@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType, URL_SERVER, WinnerType } from '@/helpers/types';
 import { Button } from '@/pages/Header';
@@ -11,9 +13,7 @@ function RaceRowSelUpd({ id, name, color }: CarType) {
 
   // eslint-disable-next-line no-shadow
   const deleteWinner = async ({ id }: Pick<WinnerType, 'id'>) => {
-    await fetch(`${URL_SERVER}/winners/${id}`, {
-      method: 'DELETE',
-    });
+    await axios.delete(`${URL_SERVER}/winners/${id}`);
   };
 
   // NOTE: Кнопка селект, отправляем текущие данные в стейт, которые возьмет форма для отображения

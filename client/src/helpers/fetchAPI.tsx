@@ -1,24 +1,20 @@
-import { URL_SERVER, WinnerType } from '@/helpers/types';
+import axios from 'axios';
+
+import { CarType, URL_SERVER, WinnerType } from '@/helpers/types';
 
 // eslint-disable-next-line consistent-return
-export const getWinnerByID = async (id: number) => {
+export const getWinnerByID = async (id: CarType['id']) => {
   try {
-    const response = await fetch(`${URL_SERVER}/winners/${id}`);
-    return response.json();
+    const { data } = await axios.get(`${URL_SERVER}/winners/${id}`);
+    return data;
   } catch (error) {
     // throw new Error(`Something was wrong. Get winner, ${error}`);
   }
 };
 
-export const createWinner = async ({ id, wins, time }: WinnerType) => {
+export const createWinner = async (winner: WinnerType) => {
   try {
-    await fetch(`${URL_SERVER}/winners`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id, wins, time }),
-    });
+    await axios.post(`${URL_SERVER}/winners`, winner);
   } catch (error) {
     // throw new Error(`Something was wrong. Create winner, ${error}`);
   }
@@ -26,23 +22,16 @@ export const createWinner = async ({ id, wins, time }: WinnerType) => {
 
 export const updateWinner = async ({ id, wins, time }: WinnerType) => {
   try {
-    await fetch(`${URL_SERVER}/winners/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ wins, time }),
-    });
+    await axios.put(`${URL_SERVER}/winners/${id}`, { wins, time });
   } catch (error) {
     // throw new Error(`Something was wrong. Update winner, ${error}`);
   }
 };
 
-// eslint-disable-next-line consistent-return
-export const getCar = async ({ id }: { id: number }) => {
+export const getCar = async ({ id }: { id: CarType['id'] }) => {
   try {
-    const response = await fetch(`${URL_SERVER}/garage/${id}`);
-    return response.json();
+    const { data } = await axios.get(`${URL_SERVER}/garage/${id}`);
+    return data;
   } catch (error) {
     // throw new Error(`Something was wrong. Update winner, ${error}`);
   }

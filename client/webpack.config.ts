@@ -22,6 +22,7 @@ const config: webpack.Configuration = {
     publicPath: '/',
     clean: true,
   },
+  devtool: 'source-map',
   devServer: devServer,
   plugins: [
     new HtmlWebpackPlugin({
