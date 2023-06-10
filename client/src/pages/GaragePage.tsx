@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import GarageControls from '@/pages/GarageComponents/GarageControls';
 import GarageRace from '@/pages/GarageComponents/GarageRace';
 import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
-import { garageActions } from '@/store/Slices/Garage/GarageSlice';
+import { garageActions } from '@/store/Slices/Garage/garage.slice';
 
 function GaragePage() {
   const { winnerRace, carsRaceState } = useAppSelector((state) => state.garage);

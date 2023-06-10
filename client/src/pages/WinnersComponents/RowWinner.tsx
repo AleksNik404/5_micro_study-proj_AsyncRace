@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from 'react';
 import SvgCar from '@/assets/SvgCar';
 import { getCar } from '@/helpers/fetchAPI';
 import { useAppSelector } from '@/helpers/hooks';
-import { CarType, WinnerType } from '@/helpers/types';
+import { CarType } from '@/helpers/types';
+import { WinnerType } from '@/store/Slices/Winners/winners.types';
 
 interface IRowWinner {
   winner: WinnerType;

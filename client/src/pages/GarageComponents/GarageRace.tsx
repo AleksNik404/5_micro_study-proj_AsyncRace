@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import RaceRow from '@/pages/GarageComponents/RaceRow';
 import { Button } from '@/pages/Header';
-import { garageActions } from '@/store/Slices/Garage/GarageSlice';
-import { fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
+import { garageActions } from '@/store/Slices/Garage/garage.slice';
+import { fetchPageCars } from '@/store/Slices/Garage/garage.thunk';
 
 function GarageRace() {
   const { racePage, cars, totalCars, isCarsActiveEmpty } = useAppSelector((state) => state.garage);

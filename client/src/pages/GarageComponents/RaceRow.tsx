@@ -6,12 +6,12 @@ import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
 import RaceRowSelUpd from '@/pages/GarageComponents/RaceRowSelUpd';
 import { Button } from '@/pages/Header';
-import { garageActions } from '@/store/Slices/Garage/GarageSlice';
+import { garageActions } from '@/store/Slices/Garage/garage.slice';
 import {
   getSpeedOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from '@/store/Slices/Garage/GarageThunk';
+} from '@/store/Slices/Garage/garage.thunk';
 
 function RaceRow({ id, name, color }: CarType) {
   const { startRace, winnerRace, resetPosition } = useAppSelector((state) => state.garage);

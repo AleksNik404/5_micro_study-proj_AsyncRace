@@ -7,29 +7,8 @@ import {
   getSpeedOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from '@/store/Slices/Garage/GarageThunk';
-
-export interface ICarsState {
-  [key: number]: { isDrive: boolean; isBroken: boolean; time: number };
-}
-
-export interface IGarage {
-  cars: CarType[];
-
-  racePage: number;
-  limit: number;
-  totalCars: number;
-
-  isCarsActiveEmpty: boolean;
-  isDisabledUpdField: boolean;
-  updatingCar: null | CarType;
-
-  startRace: boolean | null;
-  resetPosition: boolean;
-  winnerRace: null | (CarType & { time: number });
-
-  carsRaceState: ICarsState;
-}
+} from '@/store/Slices/Garage/garage.thunk';
+import { IGarage } from '@/store/Slices/Garage/garage.types';
 
 const initialState: IGarage = {
   cars: [],

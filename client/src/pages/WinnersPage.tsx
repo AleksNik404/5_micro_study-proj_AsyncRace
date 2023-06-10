@@ -7,8 +7,8 @@ import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { PageBlock } from '@/pages/GarageComponents/GarageRace';
 import { Button } from '@/pages/Header';
 import RowWinner from '@/pages/WinnersComponents/RowWinner';
-import { winnersActions } from '@/store/Slices/Winners/WinnersSlice';
-import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
+import { winnersActions } from '@/store/Slices/Winners/winners.slice';
+import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 
 function WinnersPage() {
   const dispatch = useAppDispatch();

@@ -3,7 +3,8 @@ import axios from 'axios';
 
 import { CarType, URL_SERVER } from '@/helpers/types';
 import { getRandomNameCar, randomColor } from '@/helpers/utils';
-import { garageActions, ICarsState } from '@/store/Slices/Garage/GarageSlice';
+import { garageActions } from '@/store/Slices/Garage/garage.slice';
+import { ICarsState } from '@/store/Slices/Garage/garage.types';
 import { AppDispatch, RootState } from '@/store/store.types';
 
 // Получаем машинОК / обновляем total / возвращаю машинки в стейт

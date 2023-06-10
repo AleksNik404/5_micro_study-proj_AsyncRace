@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { CarType, URL_SERVER, WinnerType } from '@/helpers/types';
+import { CarType, URL_SERVER } from '@/helpers/types';
+import { WinnerType } from '@/store/Slices/Winners/winners.types';
 
 // eslint-disable-next-line consistent-return
 export const getWinnerByID = async (id: CarType['id']) => {
