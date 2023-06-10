@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { garageActions, ICarsState } from '@/store/Slices/Garage/GarageSlice';
-import { AppDispatch, RootState } from '@/store/store.types';
 import { CarType, URL_SERVER } from '@/helpers/types';
 import { getRandomNameCar, randomColor } from '@/helpers/utils';
+import { garageActions, ICarsState } from '@/store/Slices/Garage/GarageSlice';
+import { AppDispatch, RootState } from '@/store/store.types';
 
 // Получаем машинОК / обновляем total / возвращаю машинки в стейт
 export const fetchPageCars = createAsyncThunk<

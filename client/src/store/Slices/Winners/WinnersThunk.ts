@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { URL_SERVER, WinnerType } from '@/helpers/types';
 import { IWinnersPage, winnersActions } from '@/store/Slices/Winners/WinnersSlice';
 import { AppDispatch } from '@/store/store.types';
-import { URL_SERVER, WinnerType } from '@/helpers/types';
 
 export const fetchPageWinners = createAsyncThunk<
   WinnerType[],

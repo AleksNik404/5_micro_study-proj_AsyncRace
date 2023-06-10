@@ -1,9 +1,9 @@
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
+import { CarType, URL_SERVER, WinnerType } from '@/helpers/types';
 import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Garage/GarageSlice';
 import { deleteCar, fetchPageCars } from '@/store/Slices/Garage/GarageThunk';
 import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
-import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import { CarType, URL_SERVER, WinnerType } from '@/helpers/types';
 
 function RaceRowSelUpd({ id, name, color }: CarType) {
   const { isCarsActiveEmpty } = useAppSelector((state) => state.garage);

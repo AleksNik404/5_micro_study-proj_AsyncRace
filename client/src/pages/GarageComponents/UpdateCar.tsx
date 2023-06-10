@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { ControlsBox } from '@/pages/GarageComponents/CreateCar';
 import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Garage/GarageSlice';
 import { fetchPageCars, updateCar } from '@/store/Slices/Garage/GarageThunk';
 import { fetchPageWinners } from '@/store/Slices/Winners/WinnersThunk';
-import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 
 function UpdateCar() {
   const { isDisabledUpdField, updatingCar } = useAppSelector((state) => state.garage);

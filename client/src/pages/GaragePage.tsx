@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import GarageControls from '@/pages/GarageComponents/GarageControls';
 import GarageRace from '@/pages/GarageComponents/GarageRace';
 import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
 import { garageActions } from '@/store/Slices/Garage/GarageSlice';
-import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 
 function GaragePage() {
   const { winnerRace, carsRaceState } = useAppSelector((state) => state.garage);
