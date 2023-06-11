@@ -12,25 +12,25 @@ import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 
 function WinnersPage() {
   const dispatch = useAppDispatch();
-  const { raceWinner: winnerRace } = useAppSelector((state) => state.garage);
+  const { raceWinner } = useAppSelector((state) => state.garage);
   const { totalWinners, winners, winnersPage, sort, order } = useAppSelector(
     (state) => state.winners
   );
 
   // Победителя создаем или обновляем
   const updateWinnerData = useCallback(async () => {
-    if (!winnerRace) return;
+    if (!raceWinner) return;
 
-    const winner = await getWinnerByID(winnerRace.id);
+    const winner = await getWinnerByID(raceWinner.id);
 
     if (winner) {
-      const time = Math.min(winner.time, winnerRace.time);
+      const time = Math.min(winner.time, raceWinner.time);
       await updateWinner({ id: winner.id, wins: winner.wins + 1, time });
     }
-    await createWinner({ id: winnerRace.id, wins: 1, time: winnerRace.time });
+    await createWinner({ id: raceWinner.id, wins: 1, time: raceWinner.time });
 
     dispatch(fetchPageWinners());
-  }, [dispatch, winnerRace]);
+  }, [dispatch, raceWinner]);
 
   useEffect(() => {
     dispatch(fetchPageWinners());
@@ -38,7 +38,7 @@ function WinnersPage() {
 
   useEffect(() => {
     updateWinnerData();
-  }, [updateWinnerData, winnerRace]);
+  }, [updateWinnerData, raceWinner]);
 
   const handlerSortWins = () => {
     dispatch(winnersActions.changeSort('wins'));

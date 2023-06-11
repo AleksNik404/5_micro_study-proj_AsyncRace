@@ -8,7 +8,11 @@ import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
 function GarageRace() {
-  const { racePage, cars, totalCars, isCarsActiveEmpty } = useAppSelector((state) => state.garage);
+  const { racePage, cars, totalCars } = useAppSelector((state) => state.garage);
+  const someCarIsActive = useAppSelector(
+    (state) => Object.keys(state.garage.activeCarsState).length > 0
+  );
+
   const dispatch = useAppDispatch();
 
   // NOTE: Запрос на машинки. При изминение страницы.
@@ -23,14 +27,14 @@ function GarageRace() {
         <h3>Page #{racePage}</h3>
         <Button
           size="sm"
-          disabled={!isCarsActiveEmpty}
+          disabled={someCarIsActive}
           onClick={() => dispatch(garageActions.decreasePage())}
         >
           Prev
         </Button>
         <Button
           size="sm"
-          disabled={!isCarsActiveEmpty}
+          disabled={someCarIsActive}
           onClick={() => dispatch(garageActions.increasePage())}
         >
           Next

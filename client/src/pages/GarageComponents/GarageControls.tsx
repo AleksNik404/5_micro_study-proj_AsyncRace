@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import { BTN_DISABLED, BTN_ENABLED } from '@/helpers/types';
 import CreateCar from '@/pages/GarageComponents/CreateCar';
 import UpdateCar from '@/pages/GarageComponents/UpdateCar';
 import { Button } from '@/pages/Header';
@@ -11,31 +10,16 @@ import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/C
 
 function GarageControls() {
   const dispatch = useAppDispatch();
-  const { cars, isCarsActiveEmpty } = useAppSelector((state) => state.garage);
+  const cars = useAppSelector((state) => state.garage.cars);
+  const someCarIsActive = useAppSelector(
+    (state) => Object.keys(state.garage.activeCarsState).length > 0
+  );
 
-  const [startBtn, setStartBtn] = useState<boolean>(BTN_ENABLED);
-  const [resetBtn, setResetBtn] = useState<boolean>(BTN_DISABLED);
-
-  // NOTE: Сброс гонки, изминение state и на это отреагирует useEffect в каждой машинке.
   const handlerResetRace = useCallback(() => {
-    // setResetBtn(BTN_DISABLED);
     dispatch(garageActions.resetRace());
   }, [dispatch]);
 
-  // NOTE: Блокирование кнопок.
-  // useEffect(() => {
-  //   setStartBtn(!isCarsActiveEmpty);
-
-  //   if (!isCarsActiveEmpty) setResetBtn(BTN_ENABLED);
-  //   if (isCarsActiveEmpty) handlerResetRace(); // Мб лишнее уже, не убираю.
-  // }, [handlerResetRace, isCarsActiveEmpty]);
-
-  // NOTE: Одновременный старт гонки для всех машинок, promise.all получение время анимации и useEffect старт.
   const handlerStartRace = async () => {
-    // dispatch(garageActions.updCarsEmpty(false));
-    // setStartBtn(BTN_DISABLED);
-    // setResetBtn(BTN_ENABLED);
-
     await dispatch(getDurationCars(cars));
     dispatch(garageActions.setStatusRace('run race'));
   };
@@ -50,21 +34,13 @@ function GarageControls() {
       <CreateCar />
       <UpdateCar />
       <RaceBtns>
-        <Button bg="#fed7aa" onClick={handlerStartRace} disabled={startBtn}>
+        <Button bg="#fed7aa" onClick={handlerStartRace} disabled={someCarIsActive}>
           Race
         </Button>
-        <Button
-          bg="#fed7aa"
-          onClick={handlerResetRace}
-          // disabled={resetBtn}
-        >
+        <Button bg="#fed7aa" onClick={handlerResetRace} disabled={!someCarIsActive}>
           Reset
         </Button>
-        <Button
-          bg="#fed7aa"
-          onClick={() => handlerCreateManyCars(100)}
-          disabled={!isCarsActiveEmpty}
-        >
+        <Button bg="#fed7aa" onClick={() => handlerCreateManyCars(100)} disabled={someCarIsActive}>
           Generate Cars
         </Button>
       </RaceBtns>

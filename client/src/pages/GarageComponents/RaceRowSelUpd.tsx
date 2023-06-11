@@ -9,15 +9,13 @@ import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 import { WinnerType } from '@/store/Slices/Winners/winners.types';
 
 function RaceRowSelUpd({ id, name, color }: CarType) {
-  const { isCarsActiveEmpty } = useAppSelector((state) => state.garage);
+  const carIsActive = useAppSelector((state) => Boolean(state.garage.activeCarsState[id]?.status));
   const dispatch = useAppDispatch();
 
-  // eslint-disable-next-line no-shadow
   const deleteWinner = async ({ id }: Pick<WinnerType, 'id'>) => {
     await axios.delete(`${URL_SERVER}/winners/${id}`);
   };
 
-  // NOTE: Кнопка селект, отправляем текущие данные в стейт, которые возьмет форма для отображения
   const handlerUpdateCar = () => {
     dispatch(garageActions.setCloseUpdField(false));
     dispatch(garageActions.setUpdatingCar({ id, name, color }));
@@ -33,10 +31,10 @@ function RaceRowSelUpd({ id, name, color }: CarType) {
 
   return (
     <>
-      <Button bg="#c4b5fd" size="sm" onClick={handlerUpdateCar}>
+      <Button disabled={carIsActive} bg="#c4b5fd" size="sm" onClick={handlerUpdateCar}>
         select
       </Button>
-      <Button disabled={!isCarsActiveEmpty} bg="#c4b5fd" size="sm" onClick={handlerDeleteCar}>
+      <Button disabled={carIsActive} bg="#c4b5fd" size="sm" onClick={handlerDeleteCar}>
         remove
       </Button>
       <p>{name}</p>

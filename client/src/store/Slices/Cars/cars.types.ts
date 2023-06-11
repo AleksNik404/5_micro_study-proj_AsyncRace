@@ -17,7 +17,7 @@ export interface IGarage {
   limit: number;
   totalCars: number;
 
-  isCarsActiveEmpty: boolean;
+  // isCarsActiveEmpty: boolean;
   isDisabledUpdField: boolean;
   updatingCar: null | CarType;
 

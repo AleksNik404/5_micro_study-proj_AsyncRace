@@ -8,7 +8,7 @@ import {
   setDriveModeOneCar,
   setStopModeOneCar,
 } from '@/store/Slices/Cars/cars.thunk';
-import { CarsState, CarState, IGarage } from '@/store/Slices/Cars/cars.types';
+import { CarState, IGarage } from '@/store/Slices/Cars/cars.types';
 
 const initialState: IGarage = {
   cars: [],
@@ -17,7 +17,7 @@ const initialState: IGarage = {
   limit: 7,
   totalCars: 4,
 
-  isCarsActiveEmpty: true,
+  // isCarsActiveEmpty: true,
   isDisabledUpdField: true,
   updatingCar: null,
 
@@ -56,9 +56,9 @@ export const garageSlice = createSlice({
       state.raceWinner = null;
     },
 
-    updCarsEmpty(state, action: PayloadAction<boolean>) {
-      state.isCarsActiveEmpty = action.payload;
-    },
+    // updCarsEmpty(state, action: PayloadAction<boolean>) {
+    //   state.isCarsActiveEmpty = action.payload;
+    // },
 
     setStatusRace(state, action: PayloadAction<'enable' | 'run race' | 'disable'>) {
       state.raceStatus = action.payload;

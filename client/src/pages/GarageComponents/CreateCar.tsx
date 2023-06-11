@@ -7,7 +7,9 @@ import { Button } from '@/pages/Header';
 import { createCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
 function CreateCar() {
-  const { isCarsActiveEmpty } = useAppSelector((state) => state.garage);
+  const someCarIsActive = useAppSelector(
+    (state) => Object.keys(state.garage.activeCarsState).length > 0
+  );
   const [carName, setCarName] = useState('');
   const [carColor, setCarColor] = useState('#ffffff');
 
@@ -26,7 +28,7 @@ function CreateCar() {
     <ControlsBox>
       <input onChange={(e) => setCarName(e.target.value)} value={carName} type="text" />
       <input onChange={(e) => setCarColor(e.target.value)} value={carColor} type="color" />
-      <Button bg="#c4b5fd" onClick={handlerCreateCar} disabled={!isCarsActiveEmpty}>
+      <Button bg="#c4b5fd" onClick={handlerCreateCar} disabled={someCarIsActive}>
         create
       </Button>
     </ControlsBox>
