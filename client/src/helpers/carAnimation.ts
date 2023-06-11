@@ -1,4 +1,4 @@
-export class Animate {
+export class CarAnimation {
   element: HTMLDivElement;
   duration = 0;
   startTime = 0;
@@ -11,27 +11,26 @@ export class Animate {
   start(duration: number) {
     this.duration = duration;
     this.onProgress(0);
-    this.frameId = requestAnimationFrame((time) => this.onFrame(time));
+
+    this.startTime = performance.now();
+    this.frameId = requestAnimationFrame(() => this.onFrame());
   }
 
-  onFrame(time: number) {
-    if (!this.startTime) this.startTime = time;
-
-    const timePassed = time - this.startTime;
+  onFrame() {
+    const timePassed = performance.now() - this.startTime;
     const progress = Math.min(timePassed / this.duration, 1);
-    // console.log(timePassed);
-    // console.log(progress);
+
     this.onProgress(progress);
 
-    if (progress === 1) this.stop();
-    else {
-      this.frameId = requestAnimationFrame((time) => this.onFrame(time));
+    if (progress === 1) {
+      this.stop();
+      return;
     }
+
+    this.frameId = requestAnimationFrame(() => this.onFrame());
   }
 
   onProgress(progress: number) {
-    if (!this.element) return;
-
     const width = this.element.clientWidth * progress;
     this.element.style.left = `Calc(${progress * 100}% - ${width}px)`;
   }
@@ -46,6 +45,7 @@ export class Animate {
     this.frameId = null;
     this.startTime = 0;
     this.duration = 0;
+
     if (this.element) {
       this.element.style.left = '0';
     }

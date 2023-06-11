@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
-import { CarType, URL_SERVER } from '@/helpers/types';
+import { customAxios } from '@/helpers/fetchAPI';
+import { CarType } from '@/helpers/types';
 import { getRandomNameCar, randomColor } from '@/helpers/utils';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { CarsState } from '@/store/Slices/Cars/cars.types';
@@ -16,7 +16,7 @@ export const fetchPageCars = createAsyncThunk<
   const { racePage, limit } = Thunk.getState().garage;
 
   const params = { _limit: limit, _page: racePage };
-  const response = await axios.get(`${URL_SERVER}/garage`, { params });
+  const response = await customAxios.get(`/garage`, { params });
 
   if (!response.status) {
     return Thunk.rejectWithValue('Server fetch error');
@@ -31,30 +31,28 @@ export const fetchPageCars = createAsyncThunk<
 export const createCar = createAsyncThunk<void, Pick<CarType, 'name' | 'color'>>(
   'garage/createCar',
   async (car) => {
-    await axios.post(`${URL_SERVER}/garage`, car);
+    await customAxios.post(`/garage`, car);
   }
 );
 
 export const updateCar = createAsyncThunk<void, CarType>(
   'garage/updateCar',
   async ({ id, color, name }) => {
-    await axios.put(`${URL_SERVER}/garage/${id}`, { name, color });
+    await customAxios.put(`/garage/${id}`, { name, color });
   }
 );
 
 export const deleteCar = createAsyncThunk<void, Pick<CarType, 'id'>>(
   'garage/deleteCar',
   async ({ id }) => {
-    await axios.delete(`${URL_SERVER}/garage/${id}`);
+    await customAxios.delete(`/garage/${id}`);
   }
 );
 
 export const getDurationCars = createAsyncThunk<CarsState, CarType[]>(
   'garage/getDurationCars',
   async (cars) => {
-    const requests = cars.map((car) =>
-      axios.patch(`${URL_SERVER}/engine?id=${car.id}&status=started`)
-    );
+    const requests = cars.map((car) => customAxios.patch(`/engine?id=${car.id}&status=started`));
 
     const responses = await Promise.all(requests);
     const data = await Promise.all(responses.map((res) => res.data));
@@ -77,10 +75,9 @@ export const getSpeedOneCar = createAsyncThunk<
   { id: number },
   { rejectValue: string }
 >('garage/getSpeedOneCar', async ({ id }, Thunk) => {
-  const response = await axios.patch(`${URL_SERVER}/engine?id=${id}&status=started`);
+  const response = await customAxios.patch(`/engine?id=${id}&status=started`);
 
   if (response.status !== 200) {
-    console.warn('axios error getSpeedOneCar');
     return Thunk.rejectWithValue('ERROR FETCH SPEED ONE CAR');
   }
 
@@ -97,8 +94,8 @@ export const setDriveModeOneCar = createAsyncThunk<
 >('garage/setDriveModeOneCar', async ({ id, signal }, Thunk) => {
   const params = { id, status: 'drive' };
 
-  return await axios
-    .patch(`${URL_SERVER}/engine`, null, {
+  return await customAxios
+    .patch(`/engine`, null, {
       params,
       signal,
     })
@@ -117,10 +114,9 @@ export const setStopModeOneCar = createAsyncThunk<
   { rejectValue: string | number }
 >('garage/setStopModeOneCar', async ({ id }, Thunk) => {
   const params = { id, status: 'stopped' };
-  const response = await axios.patch(`${URL_SERVER}/engine`, null, { params });
+  const response = await customAxios.patch(`/engine`, null, { params });
 
   if (response.status !== 200) {
-    console.warn('axios error setStopModeOneCar');
     return Thunk.rejectWithValue(response.statusText);
   }
 

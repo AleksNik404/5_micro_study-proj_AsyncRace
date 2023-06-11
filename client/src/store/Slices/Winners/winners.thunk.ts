@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
-import { URL_SERVER } from '@/helpers/types';
+import { customAxios } from '@/helpers/fetchAPI';
 import { winnersActions } from '@/store/Slices/Winners/winners.slice';
 import { IWinnersPage, WinnerType } from '@/store/Slices/Winners/winners.types';
 import { AppDispatch } from '@/store/store.types';
@@ -18,10 +17,9 @@ export const fetchPageWinners = createAsyncThunk<
     _sort: sort,
     _order: order,
   };
-  const response = await axios(`${URL_SERVER}/winners`, { params });
+  const response = await customAxios(`/winners`, { params });
 
   if (response.status !== 200) {
-    console.warn('axios error fetchPageWinners');
     return Thunk.rejectWithValue('Server fetch error');
   }
 

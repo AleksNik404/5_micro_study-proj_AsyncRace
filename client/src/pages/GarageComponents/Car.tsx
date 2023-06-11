@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import React, { useEffect } from 'react';
 
 import SvgCar from '@/assets/SvgCar';
-import { Animate } from '@/helpers/animation';
+import { CarAnimation } from '@/helpers/carAnimation';
 
 type Props = {
   color: string;
@@ -13,11 +13,11 @@ type Props = {
 };
 
 const Car = ({ status, color, animationTime }: Props) => {
-  const carAnimation = React.useRef<Animate>();
+  const carAnimation = React.useRef<CarAnimation>();
   const carRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (carRef.current) carAnimation.current = new Animate(carRef.current);
+    if (carRef.current) carAnimation.current = new CarAnimation(carRef.current);
 
     return () => {
       carAnimation.current?.reset();

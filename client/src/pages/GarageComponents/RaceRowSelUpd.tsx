@@ -1,7 +1,6 @@
-import axios from 'axios';
-
+import { customAxios } from '@/helpers/fetchAPI';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import { CarType, URL_SERVER } from '@/helpers/types';
+import { CarType } from '@/helpers/types';
 import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { deleteCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
@@ -13,7 +12,7 @@ function RaceRowSelUpd({ id, name, color }: CarType) {
   const dispatch = useAppDispatch();
 
   const deleteWinner = async ({ id }: Pick<WinnerType, 'id'>) => {
-    await axios.delete(`${URL_SERVER}/winners/${id}`);
+    customAxios.delete(`/winners/${id}`).catch(() => {});
   };
 
   const handlerUpdateCar = () => {
