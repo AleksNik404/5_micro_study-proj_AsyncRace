@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
@@ -14,67 +14,35 @@ import {
 } from '@/store/Slices/Cars/cars.thunk';
 
 function RaceRow({ id, name, color }: CarType) {
-  const startRace = useAppSelector((state) => state.garage.startRace);
+  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
   const winnerRace = useAppSelector((state) => state.garage.winnerRace);
-  const resetPosition = useAppSelector((state) => state.garage.resetPosition);
-  const carsRaceState = useAppSelector((state) => state.garage.carsRaceState[id]);
+
   const time = useAppSelector((state) => state.garage.carsRaceState[id]?.time);
   const status = useAppSelector((state) => state.garage.carsRaceState[id]?.status);
 
   const dispatch = useAppDispatch();
-
   const abortRef = React.useRef<AbortController>(new AbortController());
 
-  // Старт гонки для всех. startRace меняется при получение promise.all времени анимации
-  useEffect(() => {
-    if (startRace) raceAllStart();
-    if (!startRace && carsRaceState) stopCar();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startRace, resetPosition]);
-
-  // ОТМЕНА АНИМАЦИИ ПРИ ПОЛОМКЕ. Отменяем если эта машинка активна и не едет. Статусы в редаксе проставляются.
-  // useEffect(() => {
-  //   if (carsRaceState && carsRaceState.time) timers.current = carsRaceState.time;
-  //   if (carsRaceState && (carsRaceState.isBroken || !carsRaceState.isDrive)) {
-  //     carAnimation.current?.stop();
-  //   }
-  //   // if (!carsRaceState) setStartClick(false);
-  // }, [carsRaceState]);
-
-  // создаем контроллера для отмены fetch абортом
-  const setBtnsAndAbort = async () => {
-    // dispatch(garageActions.updCarsEmpty(false));
+  const driving = useCallback(() => {
     abortRef.current = new AbortController();
-  };
+    dispatch(setDriveModeOneCar({ id, signal: abortRef.current.signal }));
+  }, [dispatch, id]);
 
-  const animationAndSetWin = async (time: number) => {
-    dispatch(setDriveModeOneCar({ id, signal: abortRef.current.signal }))
-      .unwrap()
-      .then((isFiniched) => {
-        if (isFiniched === 'success') dispatch(garageActions.setWinner({ id, name, color, time }));
-      })
-      .catch(() => {});
-  };
-
-  const handlerStart = async () => {
-    setBtnsAndAbort();
-    dispatch(getSpeedOneCar({ id }))
-      .unwrap()
-      .then(({ time }) => {
-        animationAndSetWin(time);
-      });
-  };
-
-  const stopCar = async () => {
+  const stopCar = useCallback(() => {
     abortRef.current.abort();
     dispatch(setStopModeOneCar({ id }));
-  };
+  }, [dispatch, id]);
 
-  // Когда гонка для всех (отличается от одиночного старта способом получения time).
-  const raceAllStart = async () => {
-    setBtnsAndAbort();
-    // animationAndSetWin(timers.current);
-  };
+  const handlerStart = useCallback(async () => {
+    dispatch(garageActions.setStatus({ id, status: 'starting', name }));
+    await dispatch(getSpeedOneCar({ id }));
+    driving();
+  }, [dispatch, driving, id, name]);
+
+  useEffect(() => {
+    if (raceStatus === 'run race') driving();
+    if (raceStatus === 'initial') stopCar();
+  }, [raceStatus, driving, stopCar]);
 
   return (
     <RowContainer>

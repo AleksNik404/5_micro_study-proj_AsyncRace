@@ -32,12 +32,12 @@ function GarageControls() {
 
   // NOTE: Одновременный старт гонки для всех машинок, promise.all получение время анимации и useEffect старт.
   const handlerStartRace = async () => {
-    dispatch(garageActions.updCarsEmpty(false));
-    setStartBtn(BTN_DISABLED);
-    setResetBtn(BTN_ENABLED);
+    // dispatch(garageActions.updCarsEmpty(false));
+    // setStartBtn(BTN_DISABLED);
+    // setResetBtn(BTN_ENABLED);
 
     await dispatch(getDurationCars(cars));
-    dispatch(garageActions.setStartRace(true));
+    dispatch(garageActions.setStartRace('run race'));
   };
 
   const handlerCreateManyCars = async (countCars: number) => {

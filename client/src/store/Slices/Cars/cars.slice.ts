@@ -8,7 +8,7 @@ import {
   setDriveModeOneCar,
   setStopModeOneCar,
 } from '@/store/Slices/Cars/cars.thunk';
-import { IGarage } from '@/store/Slices/Cars/cars.types';
+import { CarsState, CarState, IGarage } from '@/store/Slices/Cars/cars.types';
 
 const initialState: IGarage = {
   cars: [],
@@ -21,8 +21,7 @@ const initialState: IGarage = {
   isDisabledUpdField: true,
   updatingCar: null,
 
-  startRace: null,
-  resetPosition: true,
+  raceStatus: 'initial',
   winnerRace: null,
 
   carsRaceState: {},
@@ -52,28 +51,22 @@ export const garageSlice = createSlice({
       state.updatingCar = action.payload;
     },
 
-    setWinner(state, action: PayloadAction<(CarType & { time: number }) | null>) {
-      if (state.winnerRace || !state.startRace) return;
-
-      state.winnerRace = action.payload;
-    },
-
-    setStartRace(state, action: PayloadAction<boolean>) {
-      state.startRace = action.payload;
+    setStartRace(state, action: PayloadAction<'initial' | 'run race'>) {
+      state.raceStatus = action.payload;
     },
 
     resetRace(state) {
-      state.startRace = false;
+      state.raceStatus = 'initial';
       state.winnerRace = null;
-      state.resetPosition = !state.resetPosition;
     },
 
     updCarsEmpty(state, action: PayloadAction<boolean>) {
       state.isCarsActiveEmpty = action.payload;
     },
 
-    setStatus(state, { payload }: PayloadAction<{ id: number }>) {
-      state.carsRaceState[payload.id] = { time: 0, status: 'starting' };
+    setStatus(state, { payload }: PayloadAction<Omit<CarState, 'time'> & { id: number }>) {
+      const { id, status, name } = payload;
+      state.carsRaceState[id] = { status, name, time: 0 };
     },
   },
   extraReducers: (builder) => {
@@ -94,6 +87,12 @@ export const garageSlice = createSlice({
     });
     builder.addCase(setDriveModeOneCar.fulfilled, (state, action) => {
       state.carsRaceState[action.meta.arg.id].status = 'stopped';
+      const id = action.payload;
+      const { time, name } = state.carsRaceState[id];
+
+      if (!state.winnerRace && state.raceStatus == 'run race') {
+        state.winnerRace = { id, time, name };
+      }
     });
     builder.addCase(setDriveModeOneCar.rejected, (state, action) => {
       state.carsRaceState[action.meta.arg.id].status = 'stopped';

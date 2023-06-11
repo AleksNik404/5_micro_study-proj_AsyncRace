@@ -4,7 +4,7 @@ import axios from 'axios';
 import { CarType, URL_SERVER } from '@/helpers/types';
 import { getRandomNameCar, randomColor } from '@/helpers/utils';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
-import { ICarsState } from '@/store/Slices/Cars/cars.types';
+import { CarsState } from '@/store/Slices/Cars/cars.types';
 import { AppDispatch, RootState } from '@/store/store.types';
 
 // Получаем машинОК / обновляем total / возвращаю машинки в стейт
@@ -49,7 +49,7 @@ export const deleteCar = createAsyncThunk<void, Pick<CarType, 'id'>>(
   }
 );
 
-export const getDurationCars = createAsyncThunk<ICarsState, CarType[]>(
+export const getDurationCars = createAsyncThunk<CarsState, CarType[]>(
   'garage/getDurationCars',
   async (cars) => {
     const requests = cars.map((car) =>
@@ -59,11 +59,11 @@ export const getDurationCars = createAsyncThunk<ICarsState, CarType[]>(
     const responses = await Promise.all(requests);
     const data = await Promise.all(responses.map((res) => res.data));
 
-    const carsState: ICarsState = data.reduce((acc, car, index) => {
+    const carsState: CarsState = data.reduce((acc, car, index) => {
       const time = Number((car.distance / car.velocity / 1000).toFixed(2));
-      const { id } = cars[index];
+      const { id, name } = cars[index];
 
-      const carState = { time, status: 'starting' };
+      const carState = { time, status: 'run', name };
 
       return { ...acc, [id]: carState };
     }, {});
@@ -77,7 +77,6 @@ export const getSpeedOneCar = createAsyncThunk<
   { id: number },
   { rejectValue: string }
 >('garage/getSpeedOneCar', async ({ id }, Thunk) => {
-  Thunk.dispatch(garageActions.setStatus({ id }));
   const response = await axios.patch(`${URL_SERVER}/engine?id=${id}&status=started`);
 
   if (response.status !== 200) {
@@ -92,7 +91,7 @@ export const getSpeedOneCar = createAsyncThunk<
 });
 
 export const setDriveModeOneCar = createAsyncThunk<
-  string,
+  number,
   { id: number; signal: AbortSignal },
   { rejectValue: string }
 >('garage/setDriveModeOneCar', async ({ id, signal }, Thunk) => {
@@ -103,7 +102,9 @@ export const setDriveModeOneCar = createAsyncThunk<
       params,
       signal,
     })
-    .then(() => 'success')
+    .then(() => {
+      return id;
+    })
     .catch(({ message }) => {
       const rejectMessage = message !== 'canceled' ? 'Engine was broken down' : 'Car is stopped';
       return Thunk.rejectWithValue(rejectMessage);

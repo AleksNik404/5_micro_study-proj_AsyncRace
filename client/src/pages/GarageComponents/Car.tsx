@@ -16,8 +16,6 @@ const Car = ({ status, color, animationTime }: Props) => {
   const carAnimation = React.useRef<Animate>();
   const carRef = React.useRef<HTMLDivElement>(null);
 
-  if (status === 'run') console.log('1111');
-
   useEffect(() => {
     if (carRef.current) carAnimation.current = new Animate(carRef.current);
 

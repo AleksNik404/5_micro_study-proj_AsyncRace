@@ -1,7 +1,13 @@
 import { CarType } from '@/helpers/types';
 
-export interface ICarsState {
-  [key: number]: { status: string; time: number };
+export interface CarState {
+  status: string;
+  time: number;
+  name: string;
+}
+
+export interface CarsState {
+  [key: number]: CarState;
 }
 
 export interface IGarage {
@@ -15,9 +21,16 @@ export interface IGarage {
   isDisabledUpdField: boolean;
   updatingCar: null | CarType;
 
-  startRace: boolean | null;
-  resetPosition: boolean;
-  winnerRace: null | (CarType & { time: number });
+  raceStatus: 'initial' | 'run race' | 'reset';
+  // startRace: boolean | null;
+  // resetPosition: boolean;
+  winnerRace: null | WinnerCar;
 
-  carsRaceState: ICarsState;
+  carsRaceState: CarsState;
+}
+
+export interface WinnerCar {
+  id: number;
+  name: string;
+  time: number;
 }
