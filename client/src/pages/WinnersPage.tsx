@@ -10,7 +10,7 @@ import RowWinner from '@/pages/WinnersComponents/RowWinner';
 import { winnersActions } from '@/store/Slices/Winners/winners.slice';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 
-function WinnersPage() {
+const WinnersPage = () => {
   const dispatch = useAppDispatch();
   const { raceWinner } = useAppSelector((state) => state.garage);
   const { totalWinners, winners, winnersPage, sort, order } = useAppSelector(
@@ -80,7 +80,7 @@ function WinnersPage() {
       </Winners>
     </Container>
   );
-}
+};
 
 export default WinnersPage;
 

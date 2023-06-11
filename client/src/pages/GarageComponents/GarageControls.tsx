@@ -8,7 +8,7 @@ import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/Cars/cars.thunk';
 
-function GarageControls() {
+const GarageControls = () => {
   const dispatch = useAppDispatch();
   const cars = useAppSelector((state) => state.garage.cars);
   const someCarIsActive = useAppSelector(
@@ -46,7 +46,7 @@ function GarageControls() {
       </RaceBtns>
     </ControlsGrid>
   );
-}
+};
 
 const ControlsGrid = styled.article`
   display: flex;

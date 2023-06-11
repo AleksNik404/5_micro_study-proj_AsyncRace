@@ -7,7 +7,7 @@ import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
-function GarageRace() {
+const GarageRace = () => {
   const { racePage, cars, totalCars } = useAppSelector((state) => state.garage);
   const someCarIsActive = useAppSelector(
     (state) => Object.keys(state.garage.activeCarsState).length > 0
@@ -47,7 +47,7 @@ function GarageRace() {
       </RaceField>
     </Main>
   );
-}
+};
 
 const Main = styled.main``;
 

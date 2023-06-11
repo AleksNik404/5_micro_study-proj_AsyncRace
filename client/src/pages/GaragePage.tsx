@@ -5,7 +5,7 @@ import GarageControls from '@/pages/GarageComponents/GarageControls';
 import GarageRace from '@/pages/GarageComponents/GarageRace';
 import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
 
-function GaragePage() {
+const GaragePage = () => {
   const { raceWinner } = useAppSelector((state) => state.garage);
 
   return (
@@ -15,7 +15,7 @@ function GaragePage() {
       <GarageRace />
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   position: absolute;

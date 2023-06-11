@@ -6,7 +6,7 @@ import GaragePage from '@/pages/GaragePage';
 import Header from '@/pages/Header';
 import WinnersPage from '@/pages/WinnersPage';
 
-function App() {
+const App = () => {
   const [isGaragePage, setIsGarage] = useState(true);
 
   const handleChangePage = (isOpen: boolean) => {
@@ -26,7 +26,7 @@ function App() {
       </Main>
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.div`
   padding: 20px 30px;

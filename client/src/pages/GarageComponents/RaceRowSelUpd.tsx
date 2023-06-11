@@ -7,7 +7,7 @@ import { deleteCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 import { WinnerType } from '@/store/Slices/Winners/winners.types';
 
-function RaceRowSelUpd({ id, name, color }: CarType) {
+const RaceRowSelUpd = ({ id, name, color }: CarType) => {
   const carIsActive = useAppSelector((state) => Boolean(state.garage.activeCarsState[id]?.status));
   const dispatch = useAppDispatch();
 
@@ -39,6 +39,6 @@ function RaceRowSelUpd({ id, name, color }: CarType) {
       <p>{name}</p>
     </>
   );
-}
+};
 
 export default RaceRowSelUpd;

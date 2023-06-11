@@ -6,7 +6,7 @@ import { getRandomNameCar } from '@/helpers/utils';
 import { Button } from '@/pages/Header';
 import { createCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
-function CreateCar() {
+const CreateCar = () => {
   const someCarIsActive = useAppSelector(
     (state) => Object.keys(state.garage.activeCarsState).length > 0
   );
@@ -33,7 +33,7 @@ function CreateCar() {
       </Button>
     </ControlsBox>
   );
-}
+};
 
 export const ControlsBox = styled.article`
   display: grid;

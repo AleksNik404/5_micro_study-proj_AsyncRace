@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { useAppSelector } from '@/helpers/hooks';
 
-function WinnerRaceModal() {
+const WinnerRaceModal = () => {
   const { raceWinner: winnerRace } = useAppSelector((store) => store.garage);
 
   // Ленивое отображение победителя
@@ -11,7 +11,7 @@ function WinnerRaceModal() {
       {winnerRace?.name} wins the race ({winnerRace?.time}s)
     </Modal>
   );
-}
+};
 
 const Modal = styled.div`
   position: fixed;

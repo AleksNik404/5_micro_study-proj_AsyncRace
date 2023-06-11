@@ -4,7 +4,7 @@ interface HeaderProps {
   handleChangePage: (isOpen: boolean) => void;
 }
 
-function Header({ handleChangePage }: HeaderProps) {
+const Header = ({ handleChangePage }: HeaderProps) => {
   return (
     <Links>
       <Button bg="#f59e0b" onClick={() => handleChangePage(true)}>
@@ -15,7 +15,7 @@ function Header({ handleChangePage }: HeaderProps) {
       </Button>
     </Links>
   );
-}
+};
 
 export default Header;
 

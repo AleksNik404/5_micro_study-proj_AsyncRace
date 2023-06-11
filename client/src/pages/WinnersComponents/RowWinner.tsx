@@ -13,7 +13,7 @@ interface IRowWinner {
 }
 
 // NOTE: Строка для таблицы победителей
-function RowWinner({ winner: { id, wins, time }, index }: IRowWinner) {
+const RowWinner = ({ winner: { id, wins, time }, index }: IRowWinner) => {
   const { winners, winnersPage, limit } = useAppSelector((state) => state.winners);
   const [car, setCar] = useState<CarType | null>(null);
 
@@ -38,7 +38,7 @@ function RowWinner({ winner: { id, wins, time }, index }: IRowWinner) {
       <Text>{time}</Text>
     </div>
   );
-}
+};
 
 const Text = styled.p``;
 

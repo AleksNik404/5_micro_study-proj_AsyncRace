@@ -7,7 +7,7 @@ import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { fetchPageCars, updateCar } from '@/store/Slices/Cars/cars.thunk';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 
-function UpdateCar() {
+const UpdateCar = () => {
   const { isDisabledUpdField, updatingCar } = useAppSelector((state) => state.garage);
 
   const [name, setName] = useState<string>('');
@@ -49,6 +49,6 @@ function UpdateCar() {
       </Button>
     </ControlsBox>
   );
-}
+};
 
 export default UpdateCar;

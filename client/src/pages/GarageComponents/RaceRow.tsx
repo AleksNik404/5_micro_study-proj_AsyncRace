@@ -13,7 +13,7 @@ import {
   setStopModeOneCar,
 } from '@/store/Slices/Cars/cars.thunk';
 
-function RaceRow({ id, name, color }: CarType) {
+const RaceRow = ({ id, name, color }: CarType) => {
   const raceStatus = useAppSelector((state) => state.garage.raceStatus);
   const winnerRace = useAppSelector((state) => state.garage.raceWinner);
 
@@ -61,7 +61,7 @@ function RaceRow({ id, name, color }: CarType) {
       </Row>
     </RowContainer>
   );
-}
+};
 
 const ButtonsBox = styled.div`
   display: grid;
