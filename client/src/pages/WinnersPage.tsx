@@ -12,7 +12,7 @@ import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 
 function WinnersPage() {
   const dispatch = useAppDispatch();
-  const { winnerRace } = useAppSelector((state) => state.garage);
+  const { raceWinner: winnerRace } = useAppSelector((state) => state.garage);
   const { totalWinners, winners, winnersPage, sort, order } = useAppSelector(
     (state) => state.winners
   );

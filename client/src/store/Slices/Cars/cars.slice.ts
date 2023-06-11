@@ -21,10 +21,10 @@ const initialState: IGarage = {
   isDisabledUpdField: true,
   updatingCar: null,
 
-  raceStatus: 'initial',
-  winnerRace: null,
+  raceStatus: 'enable',
+  raceWinner: null,
 
-  carsRaceState: {},
+  activeCarsState: {},
 };
 
 export const garageSlice = createSlice({
@@ -51,22 +51,22 @@ export const garageSlice = createSlice({
       state.updatingCar = action.payload;
     },
 
-    setStartRace(state, action: PayloadAction<'initial' | 'run race'>) {
-      state.raceStatus = action.payload;
-    },
-
     resetRace(state) {
-      state.raceStatus = 'initial';
-      state.winnerRace = null;
+      state.raceStatus = 'enable';
+      state.raceWinner = null;
     },
 
     updCarsEmpty(state, action: PayloadAction<boolean>) {
       state.isCarsActiveEmpty = action.payload;
     },
 
-    setStatus(state, { payload }: PayloadAction<Omit<CarState, 'time'> & { id: number }>) {
+    setStatusRace(state, action: PayloadAction<'enable' | 'run race' | 'disable'>) {
+      state.raceStatus = action.payload;
+    },
+
+    setCarState(state, { payload }: PayloadAction<Omit<CarState, 'time'> & { id: number }>) {
       const { id, status, name } = payload;
-      state.carsRaceState[id] = { status, name, time: 0 };
+      state.activeCarsState[id] = { status, name, time: 0 };
     },
   },
   extraReducers: (builder) => {
@@ -74,39 +74,39 @@ export const garageSlice = createSlice({
       state.cars = action.payload;
     });
     builder.addCase(getDurationCars.fulfilled, (state, action) => {
-      state.carsRaceState = action.payload;
+      state.activeCarsState = action.payload;
     });
 
     builder.addCase(getSpeedOneCar.fulfilled, (state, action) => {
       const { id, time } = action.payload;
-      state.carsRaceState[id].time = time;
+      state.activeCarsState[id].time = time;
     });
 
     builder.addCase(setDriveModeOneCar.pending, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].status = 'run';
+      state.activeCarsState[action.meta.arg.id].status = 'run';
     });
     builder.addCase(setDriveModeOneCar.fulfilled, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].status = 'stopped';
+      state.activeCarsState[action.meta.arg.id].status = 'stopped';
       const id = action.payload;
-      const { time, name } = state.carsRaceState[id];
+      const { time, name } = state.activeCarsState[id];
 
-      if (!state.winnerRace && state.raceStatus == 'run race') {
-        state.winnerRace = { id, time, name };
+      if (!state.raceWinner && state.raceStatus == 'run race') {
+        state.raceWinner = { id, time, name };
       }
     });
     builder.addCase(setDriveModeOneCar.rejected, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].status = 'stopped';
+      state.activeCarsState[action.meta.arg.id].status = 'stopped';
 
       if (action.payload?.includes('broken')) {
-        state.carsRaceState[action.meta.arg.id].status = 'broken';
+        state.activeCarsState[action.meta.arg.id].status = 'broken';
       }
     });
 
     builder.addCase(setStopModeOneCar.pending, (state, action) => {
-      state.carsRaceState[action.meta.arg.id].status = 'stopped';
+      state.activeCarsState[action.meta.arg.id].status = 'stopped';
     });
     builder.addCase(setStopModeOneCar.fulfilled, (state, action) => {
-      delete state.carsRaceState[action.meta.arg.id];
+      delete state.activeCarsState[action.meta.arg.id];
     });
   },
 });

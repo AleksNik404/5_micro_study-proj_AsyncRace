@@ -21,12 +21,12 @@ export interface IGarage {
   isDisabledUpdField: boolean;
   updatingCar: null | CarType;
 
-  raceStatus: 'initial' | 'run race' | 'reset';
+  raceStatus: 'enable' | 'run race' | 'disable';
   // startRace: boolean | null;
   // resetPosition: boolean;
-  winnerRace: null | WinnerCar;
+  raceWinner: null | WinnerCar;
 
-  carsRaceState: CarsState;
+  activeCarsState: CarsState;
 }
 
 export interface WinnerCar {

@@ -8,7 +8,9 @@ import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 
 function GaragePage() {
-  const { winnerRace, carsRaceState } = useAppSelector((state) => state.garage);
+  const { raceWinner: winnerRace, activeCarsState: carsRaceState } = useAppSelector(
+    (state) => state.garage
+  );
   const dispatch = useAppDispatch();
 
   // NOTE: Проверка состояние активных машинок, пустой ли.

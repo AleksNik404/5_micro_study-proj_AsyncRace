@@ -18,17 +18,17 @@ function GarageControls() {
 
   // NOTE: Сброс гонки, изминение state и на это отреагирует useEffect в каждой машинке.
   const handlerResetRace = useCallback(() => {
-    setResetBtn(BTN_DISABLED);
+    // setResetBtn(BTN_DISABLED);
     dispatch(garageActions.resetRace());
   }, [dispatch]);
 
   // NOTE: Блокирование кнопок.
-  useEffect(() => {
-    setStartBtn(!isCarsActiveEmpty);
+  // useEffect(() => {
+  //   setStartBtn(!isCarsActiveEmpty);
 
-    if (!isCarsActiveEmpty) setResetBtn(BTN_ENABLED);
-    if (isCarsActiveEmpty) handlerResetRace(); // Мб лишнее уже, не убираю.
-  }, [handlerResetRace, isCarsActiveEmpty]);
+  //   if (!isCarsActiveEmpty) setResetBtn(BTN_ENABLED);
+  //   if (isCarsActiveEmpty) handlerResetRace(); // Мб лишнее уже, не убираю.
+  // }, [handlerResetRace, isCarsActiveEmpty]);
 
   // NOTE: Одновременный старт гонки для всех машинок, promise.all получение время анимации и useEffect старт.
   const handlerStartRace = async () => {
@@ -37,7 +37,7 @@ function GarageControls() {
     // setResetBtn(BTN_ENABLED);
 
     await dispatch(getDurationCars(cars));
-    dispatch(garageActions.setStartRace('run race'));
+    dispatch(garageActions.setStatusRace('run race'));
   };
 
   const handlerCreateManyCars = async (countCars: number) => {
@@ -53,7 +53,11 @@ function GarageControls() {
         <Button bg="#fed7aa" onClick={handlerStartRace} disabled={startBtn}>
           Race
         </Button>
-        <Button bg="#fed7aa" onClick={handlerResetRace} disabled={resetBtn}>
+        <Button
+          bg="#fed7aa"
+          onClick={handlerResetRace}
+          // disabled={resetBtn}
+        >
           Reset
         </Button>
         <Button

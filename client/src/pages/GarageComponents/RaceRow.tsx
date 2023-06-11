@@ -15,10 +15,10 @@ import {
 
 function RaceRow({ id, name, color }: CarType) {
   const raceStatus = useAppSelector((state) => state.garage.raceStatus);
-  const winnerRace = useAppSelector((state) => state.garage.winnerRace);
+  const winnerRace = useAppSelector((state) => state.garage.raceWinner);
 
-  const time = useAppSelector((state) => state.garage.carsRaceState[id]?.time);
-  const status = useAppSelector((state) => state.garage.carsRaceState[id]?.status);
+  const time = useAppSelector((state) => state.garage.activeCarsState[id]?.time);
+  const status = useAppSelector((state) => state.garage.activeCarsState[id]?.status);
 
   const dispatch = useAppDispatch();
   const abortRef = React.useRef<AbortController>(new AbortController());
@@ -34,14 +34,15 @@ function RaceRow({ id, name, color }: CarType) {
   }, [dispatch, id]);
 
   const handlerStart = useCallback(async () => {
-    dispatch(garageActions.setStatus({ id, status: 'starting', name }));
+    dispatch(garageActions.setCarState({ id, status: 'starting', name }));
+    dispatch(garageActions.setStatusRace('disable'));
     await dispatch(getSpeedOneCar({ id }));
     driving();
   }, [dispatch, driving, id, name]);
 
   useEffect(() => {
     if (raceStatus === 'run race') driving();
-    if (raceStatus === 'initial') stopCar();
+    if (raceStatus === 'enable') stopCar();
   }, [raceStatus, driving, stopCar]);
 
   return (

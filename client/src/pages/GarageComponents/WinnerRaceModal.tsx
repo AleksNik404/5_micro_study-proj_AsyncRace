@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useAppSelector } from '@/helpers/hooks';
 
 function WinnerRaceModal() {
-  const { winnerRace } = useAppSelector((store) => store.garage);
+  const { raceWinner: winnerRace } = useAppSelector((store) => store.garage);
 
   // Ленивое отображение победителя
   return (
