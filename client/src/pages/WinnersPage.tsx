@@ -10,9 +10,12 @@ import RowWinner from '@/pages/WinnersComponents/RowWinner';
 import { winnersActions } from '@/store/Slices/Winners/winners.slice';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 
+// TODO split
 const WinnersPage = () => {
   const dispatch = useAppDispatch();
-  const { raceWinner } = useAppSelector((state) => state.garage);
+  const raceWinner = useAppSelector((state) => state.garage.raceWinner);
+
+  // TODO split
   const { totalWinners, winners, winnersPage, sort, order } = useAppSelector(
     (state) => state.winners
   );

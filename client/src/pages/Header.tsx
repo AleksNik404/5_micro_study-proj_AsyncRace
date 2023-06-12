@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { FC } from 'react';
 
 interface HeaderProps {
   handleChangePage: (isOpen: boolean) => void;
 }
 
-const Header = ({ handleChangePage }: HeaderProps) => {
+const Header: FC<HeaderProps> = ({ handleChangePage }) => {
   return (
     <Links>
       <Button bg="#f59e0b" onClick={() => handleChangePage(true)}>

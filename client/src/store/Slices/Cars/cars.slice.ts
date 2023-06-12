@@ -55,6 +55,10 @@ export const garageSlice = createSlice({
       state.raceWinner = null;
     },
 
+    resetRaceWinner(state) {
+      state.raceWinner = null;
+    },
+
     setStatusRace(state, action: PayloadAction<'initial' | 'run race' | 'disable' | 'reset'>) {
       state.raceStatus = action.payload;
     },

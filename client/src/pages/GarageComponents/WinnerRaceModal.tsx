@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 
 import { useAppSelector } from '@/helpers/hooks';
 
+// TODO improve Modal
 const WinnerRaceModal = () => {
-  const { raceWinner: winnerRace } = useAppSelector((store) => store.garage);
+  const raceWinner = useAppSelector((store) => store.garage.raceWinner);
 
-  // Ленивое отображение победителя
   return (
     <Modal>
-      {winnerRace?.name} wins the race ({winnerRace?.time}s)
+      {raceWinner?.name} wins the race ({raceWinner?.time}s)
     </Modal>
   );
 };

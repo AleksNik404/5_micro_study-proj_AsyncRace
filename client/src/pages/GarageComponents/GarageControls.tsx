@@ -19,7 +19,10 @@ const GarageControls = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (zeroActiveCars) dispatch(garageActions.setStatusRace('initial'));
+    if (zeroActiveCars) {
+      dispatch(garageActions.setStatusRace('initial'));
+      dispatch(garageActions.resetRaceWinner());
+    }
   }, [dispatch, zeroActiveCars]);
 
   const handlerResetRace = () => {

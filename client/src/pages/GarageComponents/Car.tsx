@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import SvgCar from '@/assets/SvgCar';
 import { CarAnimation } from '@/helpers/carAnimation';
@@ -12,7 +12,7 @@ type Props = {
   animationTime: number;
 };
 
-const Car = ({ status, color, animationTime }: Props) => {
+const Car: FC<Props> = ({ status, color, animationTime }) => {
   const carAnimation = React.useRef<CarAnimation>();
   const carRef = React.useRef<HTMLDivElement>(null);
 

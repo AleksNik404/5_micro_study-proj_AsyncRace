@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 
 import SvgCar from '@/assets/SvgCar';
 import { getCar } from '@/helpers/fetchAPI';
@@ -12,12 +12,12 @@ interface IRowWinner {
   index: number;
 }
 
-// NOTE: Строка для таблицы победителей
-const RowWinner = ({ winner: { id, wins, time }, index }: IRowWinner) => {
+// TODO check the props
+const RowWinner: FC<IRowWinner> = ({ winner: { id, wins, time }, index }) => {
+  // TODO split
   const { winners, winnersPage, limit } = useAppSelector((state) => state.winners);
   const [car, setCar] = useState<CarType | null>(null);
 
-  // Получение данных машинки для отображения SVG иконки.
   const setWinnerCar = useCallback(async () => {
     const carData = await getCar({ id });
     setCar(carData);

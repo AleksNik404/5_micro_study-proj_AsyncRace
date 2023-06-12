@@ -6,7 +6,7 @@ import GarageRace from '@/pages/GarageComponents/GarageRace';
 import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
 
 const GaragePage = () => {
-  const { raceWinner } = useAppSelector((state) => state.garage);
+  const raceWinner = useAppSelector((state) => state.garage.raceWinner);
 
   return (
     <Container>

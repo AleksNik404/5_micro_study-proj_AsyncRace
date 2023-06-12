@@ -8,6 +8,7 @@ import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
 const GarageRace = () => {
+  // TODO split
   const { racePage, cars, totalCars } = useAppSelector((state) => state.garage);
 
   const raceStatus = useAppSelector((state) => state.garage.raceStatus);

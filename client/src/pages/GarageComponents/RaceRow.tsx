@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
@@ -13,7 +13,8 @@ import {
   setStopModeOneCar,
 } from '@/store/Slices/Cars/cars.thunk';
 
-const RaceRow = ({ id, name, color }: CarType) => {
+// TODO split
+const RaceRow: FC<CarType> = ({ id, name, color }) => {
   const raceStatus = useAppSelector((state) => state.garage.raceStatus);
   const winnerRace = useAppSelector((state) => state.garage.raceWinner);
 
@@ -35,7 +36,6 @@ const RaceRow = ({ id, name, color }: CarType) => {
 
   const handlerStart = useCallback(async () => {
     dispatch(garageActions.setCarState({ id, status: 'starting', name }));
-    // dispatch(garageActions.setStatusRace('disable'));
     await dispatch(getDurationOneCar({ id }));
     driving();
   }, [dispatch, driving, id, name]);
