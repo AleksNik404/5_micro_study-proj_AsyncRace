@@ -21,9 +21,10 @@ const Header: FC<HeaderProps> = ({ handleChangePage }) => {
 export default Header;
 
 const Links = styled.nav`
-  margin-bottom: 15px;
+  margin-bottom: 2rem;
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  gap: 0.8rem;
 `;
 
 export const Button = styled.button<{ bg?: string; size?: string }>`

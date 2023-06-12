@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { getRandomNameCar } from '@/helpers/utils';
-import { Button } from '@/pages/Header';
+import { Button } from '@/pages/components/Header';
 import { createCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
 const CreateCar = () => {

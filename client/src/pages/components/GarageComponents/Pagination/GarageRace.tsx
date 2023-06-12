@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import RaceRow from '@/pages/GarageComponents/RaceRow';
-import { Button } from '@/pages/Header';
+import RaceRow from '@/pages/components/GarageComponents/Race/RaceRow';
+import { Button } from '@/pages/components/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 
@@ -54,7 +54,7 @@ const GarageRace = () => {
 const Main = styled.main``;
 
 export const PageBlock = styled.div`
-  margin: 10px 0;
+  margin: 0.5rem 0 2.5rem;
   display: grid;
   grid-template-columns: 75px 50px 50px;
 

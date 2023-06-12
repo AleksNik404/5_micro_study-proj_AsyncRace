@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { customAxios } from '@/helpers/fetchAPI';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
-import { Button } from '@/pages/Header';
+import { Button } from '@/pages/components/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { deleteCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';

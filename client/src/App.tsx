@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import clsx from 'clsx';
 import { useState } from 'react';
 
+import Header from '@/pages/components/Header';
 import GaragePage from '@/pages/GaragePage';
-import Header from '@/pages/Header';
 import WinnersPage from '@/pages/WinnersPage';
 
 const App = () => {

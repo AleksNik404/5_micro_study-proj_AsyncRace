@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
 import { useAppSelector } from '@/helpers/hooks';
-import GarageControls from '@/pages/GarageComponents/GarageControls';
-import GarageRace from '@/pages/GarageComponents/GarageRace';
-import WinnerRaceModal from '@/pages/GarageComponents/WinnerRaceModal';
+import GarageControls from '@/pages/components/GarageComponents/Form/GarageControls';
+import GarageRace from '@/pages/components/GarageComponents/Pagination/GarageRace';
+import WinnerRaceModal from '@/pages/components/GarageComponents/WinnerRaceModal';
 
 const GaragePage = () => {
   const raceWinner = useAppSelector((state) => state.garage.raceWinner);

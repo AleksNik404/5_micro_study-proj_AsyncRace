@@ -4,9 +4,9 @@ import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 
 import { createWinner, getWinnerByID, updateWinner } from '@/helpers/fetchAPI';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import { PageBlock } from '@/pages/GarageComponents/GarageRace';
-import { Button } from '@/pages/Header';
-import RowWinner from '@/pages/WinnersComponents/RowWinner';
+import { PageBlock } from '@/pages/components/GarageComponents/Pagination/GarageRace';
+import { Button } from '@/pages/components/Header';
+import RowWinner from '@/pages/components/WinnersComponents/RowWinner';
 import { winnersActions } from '@/store/Slices/Winners/winners.slice';
 import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
 

@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import CreateCar from '@/pages/GarageComponents/CreateCar';
-import UpdateCar from '@/pages/GarageComponents/UpdateCar';
-import { Button } from '@/pages/Header';
+import CreateCar from '@/pages/components/GarageComponents/Form/CreateCar';
+import UpdateCar from '@/pages/components/GarageComponents/Form/UpdateCar';
+import { Button } from '@/pages/components/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/Cars/cars.thunk';
 

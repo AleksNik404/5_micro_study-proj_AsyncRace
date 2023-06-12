@@ -3,9 +3,9 @@ import React, { FC, useCallback, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
-import Car from '@/pages/GarageComponents/Car';
-import RaceRowSelUpd from '@/pages/GarageComponents/RaceRowSelUpd';
-import { Button } from '@/pages/Header';
+import Car from '@/pages/components/GarageComponents/Race/Car';
+import RaceRowSelUpd from '@/pages/components/GarageComponents/Race/RaceRowSelUpd';
+import { Button } from '@/pages/components/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import {
   getDurationOneCar,
