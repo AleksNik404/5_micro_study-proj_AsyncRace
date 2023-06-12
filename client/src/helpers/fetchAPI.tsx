@@ -7,7 +7,6 @@ export const customAxios = axios.create({
   baseURL: URL_SERVER,
 });
 
-// eslint-disable-next-line consistent-return
 export const getWinnerByID = async (id: CarType['id']) => {
   try {
     const { data } = await customAxios.get(`/winners/${id}`);

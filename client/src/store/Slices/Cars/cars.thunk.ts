@@ -70,11 +70,11 @@ export const getDurationCars = createAsyncThunk<CarsState, CarType[]>(
   }
 );
 
-export const getSpeedOneCar = createAsyncThunk<
+export const getDurationOneCar = createAsyncThunk<
   { id: number; time: number },
   { id: number },
   { rejectValue: string }
->('garage/getSpeedOneCar', async ({ id }, Thunk) => {
+>('garage/getDurationOneCar', async ({ id }, Thunk) => {
   const response = await customAxios.patch(`/engine?id=${id}&status=started`);
 
   if (response.status !== 200) {
@@ -131,3 +131,15 @@ export const createManyCars = createAsyncThunk<void, number, { dispatch: AppDisp
     }
   }
 );
+
+export const garageThunks = {
+  fetchPageCars,
+  createCar,
+  updateCar,
+  deleteCar,
+  getDurationCars,
+  getDurationOneCar,
+  setDriveModeOneCar,
+  setStopModeOneCar,
+  createManyCars,
+};

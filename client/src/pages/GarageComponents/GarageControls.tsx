@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import CreateCar from '@/pages/GarageComponents/CreateCar';
@@ -9,17 +9,25 @@ import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/Cars/cars.thunk';
 
 const GarageControls = () => {
-  const dispatch = useAppDispatch();
   const cars = useAppSelector((state) => state.garage.cars);
-  const someCarIsActive = useAppSelector(
-    (state) => Object.keys(state.garage.activeCarsState).length > 0
+  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
+
+  const zeroActiveCars = useAppSelector(
+    (state) => Object.keys(state.garage.activeCarsState).length === 0
   );
 
-  const handlerResetRace = useCallback(() => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (zeroActiveCars) dispatch(garageActions.setStatusRace('initial'));
+  }, [dispatch, zeroActiveCars]);
+
+  const handlerResetRace = () => {
     dispatch(garageActions.resetRace());
-  }, [dispatch]);
+  };
 
   const handlerStartRace = async () => {
+    dispatch(garageActions.setStatusRace('disable'));
     await dispatch(getDurationCars(cars));
     dispatch(garageActions.setStatusRace('run race'));
   };
@@ -34,13 +42,25 @@ const GarageControls = () => {
       <CreateCar />
       <UpdateCar />
       <RaceBtns>
-        <Button bg="#fed7aa" onClick={handlerStartRace} disabled={someCarIsActive}>
+        <Button
+          bg="#fed7aa"
+          onClick={handlerStartRace}
+          disabled={!zeroActiveCars || raceStatus !== 'initial'}
+        >
           Race
         </Button>
-        <Button bg="#fed7aa" onClick={handlerResetRace} disabled={!someCarIsActive}>
+        <Button
+          bg="#fed7aa"
+          onClick={handlerResetRace}
+          disabled={zeroActiveCars && raceStatus !== 'run race'}
+        >
           Reset
         </Button>
-        <Button bg="#fed7aa" onClick={() => handlerCreateManyCars(100)} disabled={someCarIsActive}>
+        <Button
+          bg="#fed7aa"
+          onClick={() => handlerCreateManyCars(100)}
+          disabled={!zeroActiveCars || raceStatus !== 'initial'}
+        >
           Generate Cars
         </Button>
       </RaceBtns>

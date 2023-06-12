@@ -26,12 +26,17 @@ const Car = ({ status, color, animationTime }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (status === 'stopped') carAnimation.current?.stop();
-    if (status === 'run') carAnimation.current?.start(animationTime);
-    if (status === 'broken') carAnimation.current?.stop();
-
-    if (!status) {
-      carAnimation.current?.reset();
+    switch (status) {
+      case 'stopped':
+      case 'broken':
+        carAnimation.current?.stop();
+        break;
+      case 'run':
+        carAnimation.current?.start(animationTime);
+        break;
+      default:
+        carAnimation.current?.reset();
+        break;
     }
   }, [animationTime, status]);
 

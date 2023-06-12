@@ -4,7 +4,7 @@ import { CarType } from '@/helpers/types';
 import {
   fetchPageCars,
   getDurationCars,
-  getSpeedOneCar,
+  getDurationOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
 } from '@/store/Slices/Cars/cars.thunk';
@@ -17,11 +17,10 @@ const initialState: IGarage = {
   limit: 7,
   totalCars: 4,
 
-  // isCarsActiveEmpty: true,
   isDisabledUpdField: true,
   updatingCar: null,
 
-  raceStatus: 'enable',
+  raceStatus: 'initial',
   raceWinner: null,
 
   activeCarsState: {},
@@ -52,15 +51,11 @@ export const garageSlice = createSlice({
     },
 
     resetRace(state) {
-      state.raceStatus = 'enable';
+      state.raceStatus = 'reset';
       state.raceWinner = null;
     },
 
-    // updCarsEmpty(state, action: PayloadAction<boolean>) {
-    //   state.isCarsActiveEmpty = action.payload;
-    // },
-
-    setStatusRace(state, action: PayloadAction<'enable' | 'run race' | 'disable'>) {
+    setStatusRace(state, action: PayloadAction<'initial' | 'run race' | 'disable' | 'reset'>) {
       state.raceStatus = action.payload;
     },
 
@@ -77,7 +72,7 @@ export const garageSlice = createSlice({
       state.activeCarsState = action.payload;
     });
 
-    builder.addCase(getSpeedOneCar.fulfilled, (state, action) => {
+    builder.addCase(getDurationOneCar.fulfilled, (state, action) => {
       const { id, time } = action.payload;
       state.activeCarsState[id].time = time;
     });

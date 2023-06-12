@@ -8,7 +8,7 @@ import RaceRowSelUpd from '@/pages/GarageComponents/RaceRowSelUpd';
 import { Button } from '@/pages/Header';
 import { garageActions } from '@/store/Slices/Cars/cars.slice';
 import {
-  getSpeedOneCar,
+  getDurationOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
 } from '@/store/Slices/Cars/cars.thunk';
@@ -35,24 +35,34 @@ const RaceRow = ({ id, name, color }: CarType) => {
 
   const handlerStart = useCallback(async () => {
     dispatch(garageActions.setCarState({ id, status: 'starting', name }));
-    dispatch(garageActions.setStatusRace('disable'));
-    await dispatch(getSpeedOneCar({ id }));
+    // dispatch(garageActions.setStatusRace('disable'));
+    await dispatch(getDurationOneCar({ id }));
     driving();
   }, [dispatch, driving, id, name]);
 
   useEffect(() => {
     if (raceStatus === 'run race') driving();
-    if (raceStatus === 'enable') stopCar();
+    if (raceStatus === 'reset') stopCar();
   }, [raceStatus, driving, stopCar]);
 
   return (
     <RowContainer>
       <ButtonsBox>
         <RaceRowSelUpd id={id} color={color} name={name} />
-        <Button bg="#fed7aa" size="sm" onClick={handlerStart} disabled={!!status}>
+        <Button
+          bg="#fed7aa"
+          size="sm"
+          onClick={handlerStart}
+          disabled={Boolean(status) || raceStatus !== 'initial'}
+        >
           start
         </Button>
-        <Button bg="#fed7aa" size="sm" onClick={stopCar} disabled={!status}>
+        <Button
+          bg="#fed7aa"
+          size="sm"
+          onClick={stopCar}
+          disabled={!status || status === 'starting'}
+        >
           stop
         </Button>
       </ButtonsBox>

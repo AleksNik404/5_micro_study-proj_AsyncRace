@@ -9,6 +9,8 @@ import { WinnerType } from '@/store/Slices/Winners/winners.types';
 
 const RaceRowSelUpd = ({ id, name, color }: CarType) => {
   const carIsActive = useAppSelector((state) => Boolean(state.garage.activeCarsState[id]?.status));
+  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
+
   const dispatch = useAppDispatch();
 
   const deleteWinner = async ({ id }: Pick<WinnerType, 'id'>) => {
@@ -24,16 +26,26 @@ const RaceRowSelUpd = ({ id, name, color }: CarType) => {
     await dispatch(deleteCar({ id }));
     await deleteWinner({ id });
 
-    await dispatch(fetchPageWinners());
-    await dispatch(fetchPageCars());
+    dispatch(fetchPageWinners());
+    dispatch(fetchPageCars());
   };
 
   return (
     <>
-      <Button disabled={carIsActive} bg="#c4b5fd" size="sm" onClick={handlerUpdateCar}>
+      <Button
+        disabled={carIsActive || raceStatus !== 'initial'}
+        bg="#c4b5fd"
+        size="sm"
+        onClick={handlerUpdateCar}
+      >
         select
       </Button>
-      <Button disabled={carIsActive} bg="#c4b5fd" size="sm" onClick={handlerDeleteCar}>
+      <Button
+        disabled={carIsActive || raceStatus !== 'initial'}
+        bg="#c4b5fd"
+        size="sm"
+        onClick={handlerDeleteCar}
+      >
         remove
       </Button>
       <p>{name}</p>

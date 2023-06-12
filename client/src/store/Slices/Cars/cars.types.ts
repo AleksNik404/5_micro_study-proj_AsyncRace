@@ -1,7 +1,7 @@
 import { CarType } from '@/helpers/types';
 
 export interface CarState {
-  status: string;
+  status: 'stopped' | 'starting' | 'run' | 'broken';
   time: number;
   name: string;
 }
@@ -17,13 +17,10 @@ export interface IGarage {
   limit: number;
   totalCars: number;
 
-  // isCarsActiveEmpty: boolean;
   isDisabledUpdField: boolean;
   updatingCar: null | CarType;
 
-  raceStatus: 'enable' | 'run race' | 'disable';
-  // startRace: boolean | null;
-  // resetPosition: boolean;
+  raceStatus: 'initial' | 'disable' | 'run race' | 'reset';
   raceWinner: null | WinnerCar;
 
   activeCarsState: CarsState;
