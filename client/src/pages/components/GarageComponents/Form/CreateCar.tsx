@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { getRandomNameCar } from '@/helpers/utils';
 import { Button } from '@/pages/components/Header';
-import { createCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
+import { createCar, fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
 
 const CreateCar = () => {
-  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
+  const raceStatus = useAppSelector((state) => state.carsActivity.raceStatus);
 
   const [carName, setCarName] = useState('');
   const [carColor, setCarColor] = useState('#ffffff');

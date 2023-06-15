@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
-import { IWinnersPage } from '@/store/Slices/Winners/winners.types';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
+import { IWinnersPage } from '@/store/Slices/WinnersPage/winners.types';
 
 const initialState: IWinnersPage = {
   winners: [],

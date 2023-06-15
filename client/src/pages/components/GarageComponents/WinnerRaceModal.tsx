@@ -4,7 +4,7 @@ import { useAppSelector } from '@/helpers/hooks';
 
 // TODO improve Modal
 const WinnerRaceModal = () => {
-  const raceWinner = useAppSelector((store) => store.garage.raceWinner);
+  const raceWinner = useAppSelector((store) => store.carsActivity.raceWinner);
 
   return (
     <Modal>

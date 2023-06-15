@@ -4,16 +4,16 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import RaceRow from '@/pages/components/GarageComponents/Race/RaceRow';
 import { Button } from '@/pages/components/Header';
-import { garageActions } from '@/store/Slices/Cars/cars.slice';
-import { fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
+import { garageActions } from '@/store/Slices/CarsPage/cars.slice';
+import { fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
 
 const GarageRace = () => {
   // TODO split
   const { racePage, cars, totalCars } = useAppSelector((state) => state.garage);
 
-  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
+  const raceStatus = useAppSelector((state) => state.carsActivity.raceStatus);
   const zeroActiveCars = useAppSelector(
-    (state) => Object.keys(state.garage.activeCarsState).length === 0
+    (state) => Object.keys(state.carsActivity.activeCarsState).length === 0
   );
 
   const dispatch = useAppDispatch();

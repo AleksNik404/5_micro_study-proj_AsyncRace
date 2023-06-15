@@ -13,3 +13,9 @@ export type WinnerType = {
   wins: number;
   time: number;
 };
+
+export interface WinnerCar {
+  id: number;
+  name: string;
+  time: number;
+}

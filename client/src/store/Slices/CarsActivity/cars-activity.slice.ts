@@ -1,55 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CarType } from '@/helpers/types';
 import {
-  fetchPageCars,
   getDurationCars,
   getDurationOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from '@/store/Slices/Cars/cars.thunk';
-import { CarState, IGarage } from '@/store/Slices/Cars/cars.types';
+} from '@/store/Slices/CarsActivity/cars-activity.thunk';
+import { CarsActivityStore, CarState } from '@/store/Slices/CarsActivity/cars-activity.types';
 
-const initialState: IGarage = {
-  cars: [],
-
-  racePage: 1,
-  limit: 7,
-  totalCars: 4,
-
-  isDisabledUpdField: true,
-  updatingCar: null,
-
+const initialState: CarsActivityStore = {
   raceStatus: 'initial',
   raceWinner: null,
 
   activeCarsState: {},
 };
 
-export const garageSlice = createSlice({
+export const carsSlice = createSlice({
   name: 'garage',
   initialState,
   reducers: {
-    increasePage(state) {
-      const maxPage = Math.ceil(state.totalCars / state.limit);
-      if (state.racePage < maxPage) state.racePage += 1;
-    },
-    decreasePage(state) {
-      if (state.racePage > 1) state.racePage -= 1;
-    },
-
-    updateTotalCars(state, action: PayloadAction<number>) {
-      state.totalCars = action.payload;
-    },
-
-    setCloseUpdField(state, action: PayloadAction<boolean>) {
-      state.isDisabledUpdField = action.payload;
-    },
-
-    setUpdatingCar(state, action: PayloadAction<CarType | null>) {
-      state.updatingCar = action.payload;
-    },
-
     resetRace(state) {
       state.raceStatus = 'reset';
       state.raceWinner = null;
@@ -69,9 +38,6 @@ export const garageSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchPageCars.fulfilled, (state, action) => {
-      state.cars = action.payload;
-    });
     builder.addCase(getDurationCars.fulfilled, (state, action) => {
       state.activeCarsState = action.payload;
     });
@@ -84,6 +50,7 @@ export const garageSlice = createSlice({
     builder.addCase(setDriveModeOneCar.pending, (state, action) => {
       state.activeCarsState[action.meta.arg.id].status = 'run';
     });
+
     builder.addCase(setDriveModeOneCar.fulfilled, (state, action) => {
       state.activeCarsState[action.meta.arg.id].status = 'stopped';
       const id = action.payload;
@@ -93,6 +60,7 @@ export const garageSlice = createSlice({
         state.raceWinner = { id, time, name };
       }
     });
+
     builder.addCase(setDriveModeOneCar.rejected, (state, action) => {
       state.activeCarsState[action.meta.arg.id].status = 'stopped';
 
@@ -104,10 +72,11 @@ export const garageSlice = createSlice({
     builder.addCase(setStopModeOneCar.pending, (state, action) => {
       state.activeCarsState[action.meta.arg.id].status = 'stopped';
     });
+
     builder.addCase(setStopModeOneCar.fulfilled, (state, action) => {
       delete state.activeCarsState[action.meta.arg.id];
     });
   },
 });
 
-export const { reducer: garageReducer, actions: garageActions } = garageSlice;
+export const { reducer: carsActivityReducer, actions: carsActivityActions } = carsSlice;

@@ -1,17 +1,17 @@
 import { FC } from 'react';
 
-import { customAxios } from '@/helpers/fetchAPI';
+import { customAxios } from '@/helpers/axios';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
 import { Button } from '@/pages/components/Header';
-import { garageActions } from '@/store/Slices/Cars/cars.slice';
-import { deleteCar, fetchPageCars } from '@/store/Slices/Cars/cars.thunk';
-import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
-import { WinnerType } from '@/store/Slices/Winners/winners.types';
+import { garageActions } from '@/store/Slices/CarsPage/cars.slice';
+import { deleteCar, fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
+import { WinnerType } from '@/store/Slices/WinnersPage/winners.types';
 
 const RaceRowSelUpd: FC<CarType> = ({ id, name, color }) => {
-  const carIsActive = useAppSelector((state) => Boolean(state.garage.activeCarsState[id]?.status));
-  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
+  const carIsActive = useAppSelector((state) => !!state.carsActivity.activeCarsState[id]?.status);
+  const raceStatus = useAppSelector((state) => state.carsActivity.raceStatus);
 
   const dispatch = useAppDispatch();
 

@@ -6,20 +6,20 @@ import { CarType } from '@/helpers/types';
 import Car from '@/pages/components/GarageComponents/Race/Car';
 import RaceRowSelUpd from '@/pages/components/GarageComponents/Race/RaceRowSelUpd';
 import { Button } from '@/pages/components/Header';
-import { garageActions } from '@/store/Slices/Cars/cars.slice';
+import { carsActivityActions } from '@/store/Slices/CarsActivity/cars-activity.slice';
 import {
   getDurationOneCar,
   setDriveModeOneCar,
   setStopModeOneCar,
-} from '@/store/Slices/Cars/cars.thunk';
+} from '@/store/Slices/CarsActivity/cars-activity.thunk';
 
 // TODO split
 const RaceRow: FC<CarType> = ({ id, name, color }) => {
-  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
-  const winnerRace = useAppSelector((state) => state.garage.raceWinner);
+  const raceStatus = useAppSelector((state) => state.carsActivity.raceStatus);
+  const winnerRace = useAppSelector((state) => state.carsActivity.raceWinner);
 
-  const time = useAppSelector((state) => state.garage.activeCarsState[id]?.time);
-  const status = useAppSelector((state) => state.garage.activeCarsState[id]?.status);
+  const time = useAppSelector((state) => state.carsActivity.activeCarsState[id]?.time);
+  const status = useAppSelector((state) => state.carsActivity.activeCarsState[id]?.status);
 
   const dispatch = useAppDispatch();
   const abortRef = React.useRef<AbortController>(new AbortController());
@@ -35,7 +35,7 @@ const RaceRow: FC<CarType> = ({ id, name, color }) => {
   }, [dispatch, id]);
 
   const handlerStart = useCallback(async () => {
-    dispatch(garageActions.setCarState({ id, status: 'starting', name }));
+    dispatch(carsActivityActions.setCarState({ id, status: 'starting', name }));
     await dispatch(getDurationOneCar({ id }));
     driving();
   }, [dispatch, driving, id, name]);

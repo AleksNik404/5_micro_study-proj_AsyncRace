@@ -5,34 +5,35 @@ import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import CreateCar from '@/pages/components/GarageComponents/Form/CreateCar';
 import UpdateCar from '@/pages/components/GarageComponents/Form/UpdateCar';
 import { Button } from '@/pages/components/Header';
-import { garageActions } from '@/store/Slices/Cars/cars.slice';
-import { createManyCars, fetchPageCars, getDurationCars } from '@/store/Slices/Cars/cars.thunk';
+import { carsActivityActions } from '@/store/Slices/CarsActivity/cars-activity.slice';
+import { getDurationCars } from '@/store/Slices/CarsActivity/cars-activity.thunk';
+import { createManyCars, fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
 
 const GarageControls = () => {
   const cars = useAppSelector((state) => state.garage.cars);
-  const raceStatus = useAppSelector((state) => state.garage.raceStatus);
+  const raceStatus = useAppSelector((state) => state.carsActivity.raceStatus);
 
   const zeroActiveCars = useAppSelector(
-    (state) => Object.keys(state.garage.activeCarsState).length === 0
+    (state) => Object.keys(state.carsActivity.activeCarsState).length === 0
   );
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (zeroActiveCars) {
-      dispatch(garageActions.setStatusRace('initial'));
-      dispatch(garageActions.resetRaceWinner());
+      dispatch(carsActivityActions.setStatusRace('initial'));
+      dispatch(carsActivityActions.resetRaceWinner());
     }
   }, [dispatch, zeroActiveCars]);
 
   const handlerResetRace = () => {
-    dispatch(garageActions.resetRace());
+    dispatch(carsActivityActions.resetRace());
   };
 
   const handlerStartRace = async () => {
-    dispatch(garageActions.setStatusRace('disable'));
+    dispatch(carsActivityActions.setStatusRace('disable'));
     await dispatch(getDurationCars(cars));
-    dispatch(garageActions.setStatusRace('run race'));
+    dispatch(carsActivityActions.setStatusRace('run race'));
   };
 
   const handlerCreateManyCars = async (countCars: number) => {

@@ -1,4 +1,4 @@
-import { CarType } from '@/helpers/types';
+import { WinnerCar } from '@/store/Slices/WinnersPage/winners.types';
 
 export interface CarState {
   status: 'stopped' | 'starting' | 'run' | 'broken';
@@ -10,24 +10,9 @@ export interface CarsState {
   [key: number]: CarState;
 }
 
-export interface IGarage {
-  cars: CarType[];
-
-  racePage: number;
-  limit: number;
-  totalCars: number;
-
-  isDisabledUpdField: boolean;
-  updatingCar: null | CarType;
-
+export interface CarsActivityStore {
   raceStatus: 'initial' | 'disable' | 'run race' | 'reset';
   raceWinner: null | WinnerCar;
 
   activeCarsState: CarsState;
-}
-
-export interface WinnerCar {
-  id: number;
-  name: string;
-  time: number;
 }

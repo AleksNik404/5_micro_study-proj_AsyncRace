@@ -1,11 +1,6 @@
-import axios from 'axios';
-
-import { CarType, URL_SERVER } from '@/helpers/types';
-import { WinnerType } from '@/store/Slices/Winners/winners.types';
-
-export const customAxios = axios.create({
-  baseURL: URL_SERVER,
-});
+import { customAxios } from '@/helpers/axios';
+import { CarType } from '@/helpers/types';
+import { WinnerType } from '@/store/Slices/WinnersPage/winners.types';
 
 export const getWinnerByID = async (id: CarType['id']) => {
   try {

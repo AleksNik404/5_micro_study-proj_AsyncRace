@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { ControlsBox } from '@/pages/components/GarageComponents/Form/CreateCar';
 import { Button } from '@/pages/components/Header';
-import { garageActions } from '@/store/Slices/Cars/cars.slice';
-import { fetchPageCars, updateCar } from '@/store/Slices/Cars/cars.thunk';
-import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
+import { garageActions } from '@/store/Slices/CarsPage/cars.slice';
+import { fetchPageCars, updateCar } from '@/store/Slices/CarsPage/cars.thunk';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
 
 const UpdateCar = () => {
   const { isDisabledUpdField, updatingCar } = useAppSelector((state) => state.garage);

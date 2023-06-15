@@ -2,25 +2,28 @@ import styled from '@emotion/styled';
 import { useCallback, useEffect } from 'react';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 
-import { createWinner, getWinnerByID, updateWinner } from '@/helpers/fetchAPI';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { PageBlock } from '@/pages/components/GarageComponents/Pagination/GarageRace';
 import { Button } from '@/pages/components/Header';
 import RowWinner from '@/pages/components/WinnersComponents/RowWinner';
-import { winnersActions } from '@/store/Slices/Winners/winners.slice';
-import { fetchPageWinners } from '@/store/Slices/Winners/winners.thunk';
+import { winnersActions } from '@/store/Slices/WinnersPage/winners.slice';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
+import {
+  createWinner,
+  getWinnerByID,
+  updateWinner,
+} from '@/store/Slices/WinnersPage/winners.fetch';
 
 // TODO split
 const WinnersPage = () => {
   const dispatch = useAppDispatch();
-  const raceWinner = useAppSelector((state) => state.garage.raceWinner);
+  const raceWinner = useAppSelector((state) => state.carsActivity.raceWinner);
 
   // TODO split
   const { totalWinners, winners, winnersPage, sort, order } = useAppSelector(
     (state) => state.winners
   );
 
-  // Победителя создаем или обновляем
   const updateWinnerData = useCallback(async () => {
     if (!raceWinner) return;
 

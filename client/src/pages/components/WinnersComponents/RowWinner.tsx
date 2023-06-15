@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import SvgCar from '@/assets/SvgCar';
-import { getCar } from '@/helpers/fetchAPI';
 import { useAppSelector } from '@/helpers/hooks';
 import { CarType } from '@/helpers/types';
-import { WinnerType } from '@/store/Slices/Winners/winners.types';
+import { WinnerType } from '@/store/Slices/WinnersPage/winners.types';
+import { getCar } from '@/store/Slices/WinnersPage/winners.fetch';
 
 interface IRowWinner {
   winner: WinnerType;
