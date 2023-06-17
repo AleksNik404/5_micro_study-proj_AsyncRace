@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React, { FC, useCallback, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import { CarType } from '@/helpers/types';
 import Car from '@/pages/components/GarageComponents/Race/Car';
 import RaceRowSelUpd from '@/pages/components/GarageComponents/Race/RaceRowSelUpd';
 import { Button } from '@/pages/components/Header';
@@ -12,6 +11,7 @@ import {
   setDriveModeOneCar,
   setStopModeOneCar,
 } from '@/store/Slices/CarsActivity/cars-activity.thunk';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
 
 // TODO split
 const RaceRow: FC<CarType> = ({ id, name, color }) => {

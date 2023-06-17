@@ -1,4 +1,4 @@
-import { CarType } from '@/helpers/types';
+export type CarType = { name: string; color: string; id: number };
 
 export interface IGarage {
   cars: CarType[];

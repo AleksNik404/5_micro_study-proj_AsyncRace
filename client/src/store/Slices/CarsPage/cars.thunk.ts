@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { customAxios } from '@/helpers/axios';
-import { CarType } from '@/helpers/types';
 import { getRandomNameCar, randomColor } from '@/helpers/utils';
 import { garageActions } from '@/store/Slices/CarsPage/cars.slice';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
 import { AppDispatch, RootState } from '@/store/store.types';
 
 export const createCar = createAsyncThunk<void, Pick<CarType, 'name' | 'color'>>(

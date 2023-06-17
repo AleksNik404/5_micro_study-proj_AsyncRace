@@ -6,13 +6,13 @@ import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
 import { PageBlock } from '@/pages/components/GarageComponents/Pagination/GarageRace';
 import { Button } from '@/pages/components/Header';
 import RowWinner from '@/pages/components/WinnersComponents/RowWinner';
-import { winnersActions } from '@/store/Slices/WinnersPage/winners.slice';
-import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
 import {
   createWinner,
   getWinnerByID,
   updateWinner,
 } from '@/store/Slices/WinnersPage/winners.fetch';
+import { winnersActions } from '@/store/Slices/WinnersPage/winners.slice';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
 
 // TODO split
 const WinnersPage = () => {

@@ -2,10 +2,10 @@ import { FC } from 'react';
 
 import { customAxios } from '@/helpers/axios';
 import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
-import { CarType } from '@/helpers/types';
 import { Button } from '@/pages/components/Header';
 import { garageActions } from '@/store/Slices/CarsPage/cars.slice';
 import { deleteCar, fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
 import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
 import { WinnerType } from '@/store/Slices/WinnersPage/winners.types';
 

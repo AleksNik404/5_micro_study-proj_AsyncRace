@@ -1,5 +1,5 @@
 import { customAxios } from '@/helpers/axios';
-import { CarType } from '@/helpers/types';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
 import { WinnerType } from '@/store/Slices/WinnersPage/winners.types';
 
 export const getWinnerByID = async (id: CarType['id']) => {

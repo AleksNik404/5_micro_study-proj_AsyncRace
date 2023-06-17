@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CarType } from '@/helpers/types';
 import { fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
 import { IGarage } from '@/store/Slices/CarsPage/cars.types';
 
 const initialState: IGarage = {

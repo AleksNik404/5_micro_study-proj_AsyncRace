@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { customAxios } from '@/helpers/axios';
-import { CarType } from '@/helpers/types';
 import { CarsState } from '@/store/Slices/CarsActivity/cars-activity.types';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
 
 export const getDurationCars = createAsyncThunk<CarsState, CarType[]>(
   'garage/getDurationCars',
