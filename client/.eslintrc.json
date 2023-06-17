@@ -1,15 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "sourceType": "module"
+    "es2021": true,
+    "node": true
   },
   "extends": [
     "plugin:react/recommended",
@@ -21,7 +14,19 @@
     "plugin:prettier/recommended"
   ],
   "overrides": [],
-  "plugins": ["react", "prettier", "react-hooks"],
+  "root": true,
+
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "prettier", "react-hooks", "simple-import-sort"],
   "rules": {
     "react/react-in-jsx-scope": 0,
     "react-hooks/rules-of-hooks": "error",
@@ -40,8 +45,10 @@
     "@typescript-eslint/no-var-reqiures": "off",
     "react/jsx-uses-react": "off",
 
-    // "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   },
   "settings": {
     "import/resolver": {
@@ -53,5 +60,7 @@
       "pragma": "React",
       "version": "detect"
     }
-  }
+  },
+
+  "ignorePatterns": ["webpack.config.ts"]
 }

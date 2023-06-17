@@ -1,22 +1,23 @@
 import styled from '@emotion/styled';
-import React, { useCallback, useEffect, useState } from 'react';
-import SvgCar from '../../assets/SvgCar';
+import { FC, useCallback, useEffect, useState } from 'react';
 
-import { CarType, WinnerType } from '../../utils/types';
-import { useAppSelector } from '../../utils/hooks';
-import { getCar } from '../../utils/fetchAPI';
+import SvgCar from '@/assets/SvgCar';
+import { useAppSelector } from '@/helpers/hooks';
+import { CarType } from '@/store/Slices/CarsPage/cars.types';
+import { getCar } from '@/store/Slices/WinnersPage/winners.fetch';
+import { WinnerType } from '@/store/Slices/WinnersPage/winners.types';
 
 interface IRowWinner {
   winner: WinnerType;
   index: number;
 }
 
-// NOTE: Строка для таблицы победителей
-function RowWinner({ winner: { id, wins, time }, index }: IRowWinner) {
+// TODO check the props
+const RowWinner: FC<IRowWinner> = ({ winner: { id, wins, time }, index }) => {
+  // TODO split
   const { winners, winnersPage, limit } = useAppSelector((state) => state.winners);
   const [car, setCar] = useState<CarType | null>(null);
 
-  // Получение данных машинки для отображения SVG иконки.
   const setWinnerCar = useCallback(async () => {
     const carData = await getCar({ id });
     setCar(carData);
@@ -37,7 +38,7 @@ function RowWinner({ winner: { id, wins, time }, index }: IRowWinner) {
       <Text>{time}</Text>
     </div>
   );
-}
+};
 
 const Text = styled.p``;
 

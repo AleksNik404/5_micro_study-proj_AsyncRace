@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { useAppDispatch, useAppSelector } from '../../utils/hooks';
-import { createCar, fetchPageCars } from '../../store/Slices/GarageThunk';
-import { getRandomNameCar } from '../../utils/utils';
+import { useState } from 'react';
 
-import { Button } from '../Header';
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
+import { getRandomNameCar } from '@/helpers/utils';
+import { Button } from '@/pages/components/Header';
+import { createCar, fetchPageCars } from '@/store/Slices/CarsPage/cars.thunk';
 
-function CreateCar() {
-  const { isCarsActiveEmpty } = useAppSelector((state) => state.garage);
+const CreateCar = () => {
+  const raceStatus = useAppSelector((state) => state.carsActivity.raceStatus);
+
   const [carName, setCarName] = useState('');
   const [carColor, setCarColor] = useState('#ffffff');
 
@@ -26,12 +27,12 @@ function CreateCar() {
     <ControlsBox>
       <input onChange={(e) => setCarName(e.target.value)} value={carName} type="text" />
       <input onChange={(e) => setCarColor(e.target.value)} value={carColor} type="color" />
-      <Button bg="#c4b5fd" onClick={handlerCreateCar} disabled={!isCarsActiveEmpty}>
+      <Button bg="#c4b5fd" onClick={handlerCreateCar} disabled={raceStatus !== 'initial'}>
         create
       </Button>
     </ControlsBox>
   );
-}
+};
 
 export const ControlsBox = styled.article`
   display: grid;

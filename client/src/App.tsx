@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import Header from './pages/Header';
-import GaragePage from './pages/GaragePage';
-import WinnersPage from './pages/WinnersPage';
+import clsx from 'clsx';
+import { useState } from 'react';
 
-function App() {
+import Header from '@/pages/components/Header';
+import GaragePage from '@/pages/GaragePage';
+import WinnersPage from '@/pages/WinnersPage';
+
+const App = () => {
   const [isGaragePage, setIsGarage] = useState(true);
 
   const handleChangePage = (isOpen: boolean) => {
@@ -15,20 +17,19 @@ function App() {
     <Wrapper>
       <Header handleChangePage={handleChangePage} />
       <Main>
-        <div className={`${isGaragePage ? '' : 'hide'}`}>
+        <div className={clsx({ hide: !isGaragePage })}>
           <GaragePage />
         </div>
-        <div className={`${isGaragePage ? 'hide' : ''}`}>
+        <div className={clsx({ hide: isGaragePage })}>
           <WinnersPage />
         </div>
       </Main>
     </Wrapper>
   );
-}
+};
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   padding: 20px 30px;
-
   transition: all 0.2s;
 
   @media (max-width: 550px) {

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../utils/hooks';
-import { setCloseUpdField, setUpdatingCar } from '../../store/Slices/GarageSlice';
+import { useEffect, useState } from 'react';
 
-import { Button } from '../Header';
-import { ControlsBox } from './CreateCar';
-import { fetchPageCars, updateCar } from '../../store/Slices/GarageThunk';
-import { fetchPageWinners } from '../../store/Slices/WinnersThunk';
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
+import { ControlsBox } from '@/pages/components/GarageComponents/Form/CreateCar';
+import { Button } from '@/pages/components/Header';
+import { garageActions } from '@/store/Slices/CarsPage/cars.slice';
+import { fetchPageCars, updateCar } from '@/store/Slices/CarsPage/cars.thunk';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
 
-function UpdateCar() {
+const UpdateCar = () => {
   const { isDisabledUpdField, updatingCar } = useAppSelector((state) => state.garage);
 
   const [name, setName] = useState<string>('');
@@ -21,13 +21,13 @@ function UpdateCar() {
   const dispatch = useAppDispatch();
 
   const handlerUpdateCarBtn = async () => {
-    dispatch(setCloseUpdField(true));
+    dispatch(garageActions.setCloseUpdField(true));
 
     if (!updatingCar) return;
     await dispatch(updateCar({ color, name, id: updatingCar.id }));
     await dispatch(fetchPageWinners());
     await dispatch(fetchPageCars());
-    dispatch(setUpdatingCar(null));
+    dispatch(garageActions.setUpdatingCar(null));
   };
 
   return (
@@ -49,6 +49,6 @@ function UpdateCar() {
       </Button>
     </ControlsBox>
   );
-}
+};
 
 export default UpdateCar;

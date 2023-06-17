@@ -1,12 +1,11 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import { FC } from 'react';
 
 interface HeaderProps {
-  // eslint-disable-next-line no-unused-vars
   handleChangePage: (isOpen: boolean) => void;
 }
 
-function Header({ handleChangePage }: HeaderProps) {
+const Header: FC<HeaderProps> = ({ handleChangePage }) => {
   return (
     <Links>
       <Button bg="#f59e0b" onClick={() => handleChangePage(true)}>
@@ -17,12 +16,15 @@ function Header({ handleChangePage }: HeaderProps) {
       </Button>
     </Links>
   );
-}
+};
+
+export default Header;
 
 const Links = styled.nav`
-  margin-bottom: 15px;
+  margin-bottom: 2rem;
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  gap: 0.8rem;
 `;
 
 export const Button = styled.button<{ bg?: string; size?: string }>`
@@ -47,5 +49,3 @@ export const Button = styled.button<{ bg?: string; size?: string }>`
     filter: brightness(90%);
   }
 `;
-
-export default Header;

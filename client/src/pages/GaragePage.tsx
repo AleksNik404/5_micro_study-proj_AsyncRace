@@ -1,30 +1,21 @@
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
-import { updCarsEmpty } from '../store/Slices/GarageSlice';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import GarageControls from './GarageComponents/GarageControls';
-import GarageRace from './GarageComponents/GarageRace';
-import WinnerRaceModal from './GarageComponents/WinnerRaceModal';
 
-function GaragePage() {
-  const { winnerRace, carsRaceState } = useAppSelector((state) => state.garage);
-  const dispatch = useAppDispatch();
+import { useAppSelector } from '@/helpers/hooks';
+import GarageControls from '@/pages/components/GarageComponents/Form/GarageControls';
+import GarageRace from '@/pages/components/GarageComponents/Pagination/GarageRace';
+import WinnerRaceModal from '@/pages/components/GarageComponents/WinnerRaceModal';
 
-  // NOTE: Проверка состояние активных машинок, пустой ли.
-  useEffect(() => {
-    const isCarsActiveEmpty = Object.keys(carsRaceState).length === 0;
-
-    dispatch(updCarsEmpty(isCarsActiveEmpty));
-  }, [carsRaceState, dispatch]);
+const GaragePage = () => {
+  const raceWinner = useAppSelector((state) => state.carsActivity.raceWinner);
 
   return (
     <Container>
-      {winnerRace && <WinnerRaceModal />}
+      {raceWinner && <WinnerRaceModal />}
       <GarageControls />
       <GarageRace />
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   position: absolute;

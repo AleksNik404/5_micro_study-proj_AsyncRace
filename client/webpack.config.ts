@@ -22,6 +22,7 @@ const config: webpack.Configuration = {
     publicPath: '/',
     clean: true,
   },
+  devtool: 'source-map',
   devServer: devServer,
   plugins: [
     new HtmlWebpackPlugin({
@@ -61,6 +62,10 @@ const config: webpack.Configuration = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    preferAbsolute: true,
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    alias: { '@': path.resolve(__dirname, 'src') },
+    mainFiles: ['index'],
   },
 };
 

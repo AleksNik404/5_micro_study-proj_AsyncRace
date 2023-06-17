@@ -1,40 +1,42 @@
 import styled from '@emotion/styled';
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import RowWinner from './WinnersComponents/RowWinner';
-import { Button } from './Header';
-import { PageBlock } from './GarageComponents/GarageRace';
-import { createWinner, getWinnerByID, updateWinner } from '../utils/fetchAPI';
-import {
-  changeOrder,
-  changeSort,
-  decreaseWinPage,
-  increaseWinPage,
-} from '../store/Slices/WinnersSlice';
-import { fetchPageWinners } from '../store/Slices/WinnersThunk';
 
-function WinnersPage() {
+import { useAppDispatch, useAppSelector } from '@/helpers/hooks';
+import { PageBlock } from '@/pages/components/GarageComponents/Pagination/GarageRace';
+import { Button } from '@/pages/components/Header';
+import RowWinner from '@/pages/components/WinnersComponents/RowWinner';
+import {
+  createWinner,
+  getWinnerByID,
+  updateWinner,
+} from '@/store/Slices/WinnersPage/winners.fetch';
+import { winnersActions } from '@/store/Slices/WinnersPage/winners.slice';
+import { fetchPageWinners } from '@/store/Slices/WinnersPage/winners.thunk';
+
+// TODO split
+const WinnersPage = () => {
   const dispatch = useAppDispatch();
-  const { winnerRace } = useAppSelector((state) => state.garage);
+  const raceWinner = useAppSelector((state) => state.carsActivity.raceWinner);
+
+  // TODO split
   const { totalWinners, winners, winnersPage, sort, order } = useAppSelector(
     (state) => state.winners
   );
 
-  // Победителя создаем или обновляем
   const updateWinnerData = useCallback(async () => {
-    if (!winnerRace) return;
+    if (!raceWinner) return;
 
-    const winner = await getWinnerByID(winnerRace.id);
+    const winner = await getWinnerByID(raceWinner.id);
 
     if (winner) {
-      const time = Math.min(winner.time, winnerRace.time);
+      const time = Math.min(winner.time, raceWinner.time);
       await updateWinner({ id: winner.id, wins: winner.wins + 1, time });
     }
-    await createWinner({ id: winnerRace.id, wins: 1, time: winnerRace.time });
+    await createWinner({ id: raceWinner.id, wins: 1, time: raceWinner.time });
 
     dispatch(fetchPageWinners());
-  }, [dispatch, winnerRace]);
+  }, [dispatch, raceWinner]);
 
   useEffect(() => {
     dispatch(fetchPageWinners());
@@ -42,16 +44,16 @@ function WinnersPage() {
 
   useEffect(() => {
     updateWinnerData();
-  }, [updateWinnerData, winnerRace]);
+  }, [updateWinnerData, raceWinner]);
 
   const handlerSortWins = () => {
-    dispatch(changeSort('wins'));
-    dispatch(changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
+    dispatch(winnersActions.changeSort('wins'));
+    dispatch(winnersActions.changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
   };
 
   const handlerSortTime = () => {
-    dispatch(changeSort('time'));
-    dispatch(changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
+    dispatch(winnersActions.changeSort('time'));
+    dispatch(winnersActions.changeOrder(order === 'ASC' ? 'DESC' : 'ASC'));
   };
 
   return (
@@ -59,8 +61,8 @@ function WinnersPage() {
       <h2>Winners ({totalWinners})</h2>
       <PageBlock>
         <h3>Page #{winnersPage}</h3>
-        <Button onClick={() => dispatch(decreaseWinPage())}>Prev</Button>
-        <Button onClick={() => dispatch(increaseWinPage())}>Next</Button>
+        <Button onClick={() => dispatch(winnersActions.decreaseWinPage())}>Prev</Button>
+        <Button onClick={() => dispatch(winnersActions.increaseWinPage())}>Next</Button>
       </PageBlock>
 
       <Winners>
@@ -84,7 +86,9 @@ function WinnersPage() {
       </Winners>
     </Container>
   );
-}
+};
+
+export default WinnersPage;
 
 const Container = styled.div`
   position: absolute;
@@ -122,5 +126,3 @@ const Winners = styled.aside`
 `;
 
 const HeaderTable = styled.header``;
-
-export default WinnersPage;
